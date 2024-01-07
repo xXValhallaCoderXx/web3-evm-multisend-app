@@ -1,0 +1,15 @@
+{
+  "name": "web3-evm-multisend-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "pnpm run --parallel dev",
+    "compile": "pnpm run --parallel compile",
+    "test:token": "pnpm run --parallel test:token",
+    "test:multisend": "pnpm run --parallel test:multisend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
