@@ -1,20 +1,10 @@
 //SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.9;
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-interface IERC20 {
-    function transfer(address to, uint256 value) external returns (bool);
-
-    function transferFrom(
-        address from,
-        address to,
-        uint256 value
-    ) external returns (bool);
-}
-
-contract MultiSendX is Ownable {
+abstract contract MultiSendX is Ownable {
     IERC20 public token;
     receive() external payable {} // The contract can now receive Ether from other EOAs and Smart Contracts
 
