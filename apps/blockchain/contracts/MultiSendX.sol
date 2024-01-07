@@ -29,7 +29,6 @@ contract MultiSendX {
         }
 
         uint256 balance = address(this).balance;
-        console.log("Balance", balance);
         if (balance > 0) {
             // Cast msg.sender to a payable address
             address payable senderPayable = payable(msg.sender);

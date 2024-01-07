@@ -11,29 +11,21 @@ const deployContract = async () => {
 describe("Multi Send ETH Testsuite", function () {
   it("should deploy the contract", async function () {
     // Load the contract instance using the deployment function
-    const { contract } = await loadFixture(deployContract);
+    await loadFixture(deployContract);
   });
 
-  it("send a multi transfer", async function () {
+  it("should send ether to a single address", async function () {
     // Load the contract instance using the deployment function
     const { contract } = await loadFixture(deployContract);
 
-    const [walletOne, walletTwo, walletThree, walletFour] =
-      await hre.viem.getWalletClients();
+    const [, walletTwo, walletThree] = await hre.viem.getWalletClients();
     const publicClient = await hre.viem.getPublicClient();
 
     const walletTwoBalance = await publicClient.getBalance({
       address: walletTwo.account.address,
     });
-    const walletThreeBalance = await publicClient.getBalance({
-      address: walletThree.account.address,
-    });
 
-    const walletFourBalance = await publicClient.getBalance({
-      address: walletFour.account.address,
-    });
-
-    console.log("WALLET TWO BALANCE: ", formatEther(walletTwoBalance));
+    expect(walletTwoBalance).to.equal(parseEther("10000"));
 
     const { request } = await publicClient.simulateContract({
       account: walletTwo.account,
@@ -41,45 +33,47 @@ describe("Multi Send ETH Testsuite", function () {
       abi: contract.abi,
       functionName: "sendEther",
       value: parseEther("10"),
-      args: [
-        walletThree.account.address,
-        parseEther("1"),
-      ],
+      args: [walletThree.account.address, parseEther("1")],
     });
     await walletTwo.writeContract(request);
 
-    // await walletTwo.writeContract({
-    //   address: contract.address,
-    //   abi: contract.abi,
-    //   functionName: "multiSendEth",
-    //   args: [
-    //     [walletThree.account.address, walletFour.account.address],
-    //     [1n, 2n],
-    //   ],
-    // });
-
-    const walletTwoBalanceAfter = await publicClient.getBalance({
-      address: walletTwo.account.address,
-    });
     const walletThreeBalanceAfter = await publicClient.getBalance({
       address: walletThree.account.address,
     });
 
-    // const walletFourBalanceAfter = await publicClient.getBalance({
-    //   address: walletFour.account.address,
-    // });
+    expect(walletThreeBalanceAfter).to.equal(parseEther("10001"));
+  });
 
-    console.log(
-      "WALLET TWO BALANCE AFTER: ",
-      formatEther(walletTwoBalanceAfter)
-    );
-    console.log(
-      "WALLET THREE BALANCE AFTER: ",
-      formatEther(walletThreeBalanceAfter)
-    );
-    // console.log(
-    //   "WALLET FOUR BALANCE AFTER: ",
-    //   formatEther(walletFourBalanceAfter)
-    // );
+  it("send a multi transfer", async function () {
+    // Load the contract instance using the deployment function
+    const { contract } = await loadFixture(deployContract);
+
+    const [, walletTwo, walletThree, walletFour] =
+      await hre.viem.getWalletClients();
+    const publicClient = await hre.viem.getPublicClient();
+
+    const { request } = await publicClient.simulateContract({
+      address: contract.address,
+      abi: contract.abi,
+      functionName: "multiSendEth",
+      args: [
+        [walletThree.account.address, walletFour.account.address],
+        [1000000000000000000n, 2000000000000000000n],
+      ],
+      value: parseEther("10"),
+    });
+    await walletTwo.writeContract(request);
+
+    const walletThreeBalanceAfter = await publicClient.getBalance({
+      address: walletThree.account.address,
+    });
+
+    const walletFourBalanceAfter = await publicClient.getBalance({
+      address: walletFour.account.address,
+    });
+
+    expect(walletThreeBalanceAfter).to.equal(parseEther("10001"));
+    expect(walletFourBalanceAfter).to.equal(parseEther("10002"));
+
   });
 });
