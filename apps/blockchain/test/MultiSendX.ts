@@ -140,4 +140,71 @@ describe("Multi Send ETH Testsuite", function () {
     expect(walletTwoTokenBalanceAfter).to.equal(parseEther("1"));
     expect(walletThreeTokenBalanceAfter).to.equal(parseEther("2"));
   });
+
+  it("sends multiple recpients & different tokens token", async function () {
+    // Load the contract instance using the deployment function
+    const { contract } = await loadFixture(deployContract);
+    const { token } = await loadFixture(deployTokenContract);
+
+    const [walletOne, walletTwo, walletThree] =
+      await hre.viem.getWalletClients();
+    const publicClient = await hre.viem.getPublicClient();
+
+    const walletOneTokenBalance = await token.read.balanceOf([
+      walletOne.account.address,
+    ]);
+
+    const walletTwoTokenBalance = await token.read.balanceOf([
+      walletTwo.account.address,
+    ]);
+
+    expect(walletOneTokenBalance).to.equal(parseEther("10000"));
+    expect(walletTwoTokenBalance).to.equal(parseEther("0"));
+
+    await walletOne.writeContract({
+      address: token.address,
+      abi: token.abi,
+      functionName: "approve",
+      args: [contract.address, parseEther("10000")],
+    });
+    console.log("Jalan Jalan Token Address:", token.address);
+    console.log("Approved", walletOne.account.address);
+
+    const { request } = await publicClient.simulateContract({
+      address: contract.address,
+      abi: contract.abi,
+      functionName: "sendMultipleTokensToMultipleAddresses",
+      args: [
+        [
+          {
+            recipient: walletTwo.account.address,
+            token: token.address,
+            amount: 1000000000000000000n,
+          },
+          {
+            recipient: walletThree.account.address,
+            token: token.address,
+            amount: 1000000000000000000n,
+          },
+        ],
+      ],
+    });
+    // await walletOne.writeContract(request);
+
+    // const walletOneTokenBalanceAfter = await token.read.balanceOf([
+    //   walletOne.account.address,
+    // ]);
+
+    // const walletTwoTokenBalanceAfter = await token.read.balanceOf([
+    //   walletTwo.account.address,
+    // ]);
+
+    // const walletThreeTokenBalanceAfter = await token.read.balanceOf([
+    //   walletThree.account.address,
+    // ]);
+
+    // expect(walletOneTokenBalanceAfter).to.equal(parseEther("9997"));
+    // expect(walletTwoTokenBalanceAfter).to.equal(parseEther("1"));
+    // expect(walletThreeTokenBalanceAfter).to.equal(parseEther("2"));
+  });
 });

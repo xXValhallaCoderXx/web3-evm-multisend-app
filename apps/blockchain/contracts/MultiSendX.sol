@@ -4,6 +4,12 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+struct MultiTokenTransferDetail {
+    address recipient;
+    IERC20 token;
+    uint256 amount;
+}
+
 contract MultiSendX {
     IERC20 public token;
 
@@ -88,6 +94,54 @@ contract MultiSendX {
                 token.transfer(recipients[i], amounts[i]),
                 "Failed to transfer token"
             );
+        }
+    }
+
+    function sendMultipleTokensToMultipleAddresses(
+        MultiTokenTransferDetail[] memory transfers
+    ) public {
+        for (uint i = 0; i < transfers.length; i++) {
+            MultiTokenTransferDetail memory transfer = transfers[i];
+            token = IERC20(transfer.token);
+
+            // Check balance and allowance of each token for the sender
+            uint256 userBalance = transfer.token.balanceOf(msg.sender);
+            uint256 userAllowance = transfer.token.allowance(
+                msg.sender,
+                address(this)
+            );
+
+            // Check if the sender has enough balance and allowance
+            require(userBalance >= transfer.amount, "Insufficient balance");
+            require(userAllowance >= transfer.amount, "Insufficient allowance");
+            require(
+                transfer.token.transferFrom(
+                    msg.sender,
+                    transfer.recipient,
+                    transfer.amount
+                ),
+                "Failed to transfer tokens"
+            );
+            // require(
+            //     transfer.recipient != address(0),
+            //     "Recipient address cannot be 0x0"
+            // );
+            // require(
+            //     transfer.token != IERC20(address(0)),
+            //     "Token address cannot be 0x0"
+            // );
+            // require(
+            //     transfer.amount > 0,
+            //     "Amount must be greater than 0"
+            // );
+            // require(
+            //     transfer.token.transferFrom(msg.sender, address(this), transfer.amount),
+            //     "Failed to transfer token"
+            // );
+            // require(
+            //     transfer.token.transfer(transfer.recipient, transfer.amount),
+            //     "Failed to transfer token"
+            // );
         }
     }
 
