@@ -4,9 +4,8 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-abstract contract MultiSendX is Ownable {
+contract MultiSendX {
     IERC20 public token;
-    receive() external payable {} // The contract can now receive Ether from other EOAs and Smart Contracts
 
     event NativeTransfer(
         address indexed from,
@@ -15,8 +14,8 @@ abstract contract MultiSendX is Ownable {
     );
 
     function multiSendEth(
-        address[] memory recipients,
-        uint256[] memory values
+        address[] calldata recipients,
+        uint256[] calldata values
     ) external payable {
         require(
             recipients.length == values.length,
@@ -26,17 +25,11 @@ abstract contract MultiSendX is Ownable {
         for (uint256 i = 0; i < recipients.length; i++) {
             // Cast the non-payable address to a payable address
             address payable recipientPayable = payable(recipients[i]);
-            console.log("INDEX ", recipientPayable);
-            console.log("RECIPIENT", recipients[i]);
-            console.log("SENDER", msg.sender);
-            console.log("VALUE", values[i]);
-            payable(recipientPayable).transfer(values[i]);
-            // Transfer Ether to the recipient
-            // bool sent = recipientPayable.send(values[i]);
-            // require(sent, "Failed to send Ethessssr");
+            recipientPayable.transfer(values[i]);
         }
 
         uint256 balance = address(this).balance;
+        console.log("Balance", balance);
         if (balance > 0) {
             // Cast msg.sender to a payable address
             address payable senderPayable = payable(msg.sender);
@@ -46,4 +39,30 @@ abstract contract MultiSendX is Ownable {
             require(sent, "Failed to send Ether");
         }
     }
+
+    // Function to send Ether. The `payable` keyword is important here.
+    function sendEther(
+        address payable recipient,
+        uint256 amount
+    ) external payable {
+        // Check if the contract has enough balance
+        require(
+            address(this).balance >= amount,
+            "Insufficient balance in contract"
+        );
+
+        // Send the specified amount of Ether to the recipient
+        (bool sent, ) = recipient.call{value: amount}("");
+        require(sent, "Failed to send Ether");
+
+        uint256 balance = address(this).balance;
+        if (balance > 0) {
+            address payable senderPayable = payable(msg.sender);
+            // Transfer any remaining balance back to the sender
+            bool returnedFunds = senderPayable.send(balance);
+            require(returnedFunds, "Failed to send Ether");
+        }
+    }
+
+    receive() external payable {}
 }
