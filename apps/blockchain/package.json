@@ -3,7 +3,9 @@
   "scripts": {
     "compile": "npx hardhat compile",
     "test:token": "npx hardhat test test/Token.ts",
-    "test:multisend": "npx hardhat test test/MultiSendX.ts"
+    "test:multisend": "npx hardhat test test/MultiSendX.ts",
+    "blockchain:local": "npx hardhat node",
+    "deploy:local": "npx hardhat run scripts/deploy.ts --network localhost"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox-viem": "^2.0.0",

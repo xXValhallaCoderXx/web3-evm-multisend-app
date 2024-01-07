@@ -146,4 +146,8 @@ contract MultiSendX {
     }
 
     receive() external payable {}
+    fallback() external payable {
+        console.log("----- fallback:", msg.value);
+    }
+
 }

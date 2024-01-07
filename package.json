@@ -7,7 +7,9 @@
     "dev": "pnpm run --parallel dev",
     "compile": "pnpm run --parallel compile",
     "test:token": "pnpm run --parallel test:token",
-    "test:multisend": "pnpm run --parallel test:multisend"
+    "test:multisend": "pnpm run --parallel test:multisend",
+    "deploy:local": "pnpm run --parallel deploy:local",
+    "blockchain:local": "pnpm run --parallel blockchain:local"
   },
   "keywords": [],
   "author": "",
