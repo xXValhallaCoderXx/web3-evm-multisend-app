@@ -63,5 +63,33 @@ contract MultiSendX {
         }
     }
 
+    function sendTokenToMultipleAddresses(
+        IERC20 tokenAddress,
+        address[] memory recipients,
+        uint256[] memory amounts
+    ) public {
+        require(
+            recipients.length == amounts.length,
+            "Recipients and amounts count mismatch"
+        );
+        token = IERC20(tokenAddress);
+        uint256 userBalance = IERC20(tokenAddress).balanceOf(msg.sender);
+        uint256 userAllowance = IERC20(tokenAddress).allowance(
+            msg.sender,
+            address(this)
+        );
+        uint256 total = 0;
+        for (uint256 i = 0; i < recipients.length; i++) total += amounts[i];
+        require(userBalance >= total, "Insufficient balance");
+        require(userAllowance >= total, "Insufficient allowance");
+        require(token.transferFrom(msg.sender, address(this), total));
+        for (uint i = 0; i < recipients.length; i++) {
+            require(
+                token.transfer(recipients[i], amounts[i]),
+                "Failed to transfer token"
+            );
+        }
+    }
+
     receive() external payable {}
 }
