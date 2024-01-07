@@ -1,5 +1,10 @@
 {
   "name": "hardhat-project",
+  "scripts": {
+    "compile": "npx hardhat compile",
+    "test:token": "npx hardhat test test/Token.ts",
+    "test:multisend": "npx hardhat test test/MultiSendX.ts"
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox-viem": "^2.0.0",
     "hardhat": "^2.19.4"
