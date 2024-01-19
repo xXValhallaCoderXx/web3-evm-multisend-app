@@ -1,18 +1,36 @@
 "use client"
 import { FC, ReactNode } from "react"
-import { Box } from "@chakra-ui/react"
+import { Box, Button, Flex, Text } from "@chakra-ui/react"
+import { injected } from "wagmi/connectors";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
 
 interface IMainLayoutProps {
     children: ReactNode
 }
 
 const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
+    const { disconnect } = useDisconnect();
+    const { connect } = useConnect();
+    const { address } = useAccount();
+
+    const handleOnClick = () => {
+        if (address) {
+            disconnect()
+        }
+        () => connect({ connector: injected() })
+    }
+
     return <div>
         <Box bgColor="red">
-            sfsd
+            <Flex p={2} justifyContent="space-between">
+                <Box>
+                    <Text>Multisend</Text>
+                </Box>
+                <Button size="xs" onClick={handleOnClick}>{address ? "DIsconnect" : "COnnect"}</Button>
+            </Flex>
         </Box>
         {children}
-        </div>
+    </div>
 }
 
 export default MainLayout
