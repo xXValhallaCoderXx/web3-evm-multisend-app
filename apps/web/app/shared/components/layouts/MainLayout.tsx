@@ -17,7 +17,7 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
         if (address) {
             disconnect()
         }
-        () => connect({ connector: injected() })
+        connect({ connector: injected() })
     }
 
     return <div>
@@ -26,7 +26,10 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
                 <Box>
                     <Text>Multisend</Text>
                 </Box>
-                <Button size="xs" onClick={handleOnClick}>{address ? "DIsconnect" : "COnnect"}</Button>
+                <Flex alignItems="center" justifyContent="space-between" gap={4}>
+                    <Text fontSize="xs" >{address}</Text>
+                    <Button size="xs" onClick={handleOnClick}>{address ? "DIsconnect" : "Connect"}</Button>
+                </Flex>
             </Flex>
         </Box>
         {children}
