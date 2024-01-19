@@ -2,6 +2,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { parseEther } from "viem";
 import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import MultiSendContract from "../../shared/abi/MultiSend.json";
+import { Input, Text, Button } from "@chakra-ui/react";
 
 const SendMultipleEthForm = () => {
   const {
@@ -39,9 +40,9 @@ const SendMultipleEthForm = () => {
     data.transactions.forEach((transaction: any) => {
       recipients.push(transaction.address);
       amounts.push(parseEther(transaction.amount));
-      totalAmount += parseFloat(transaction.amount )
+      totalAmount += parseFloat(transaction.amount)
     });
-  
+
     writeContract({
       address: "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
       abi: MultiSendContract.abi,
@@ -56,8 +57,8 @@ const SendMultipleEthForm = () => {
       {fields.map((field, index) => (
         <div key={field.id}>
           <div className="form-group">
-            <label htmlFor={`address-${index}`}>Address</label>
-            <input
+            <Text >Address</Text>
+            <Input
               type="text"
               className="form-control"
               {...register(`transactions.${index}.address`, { required: true })}
@@ -67,8 +68,8 @@ const SendMultipleEthForm = () => {
             )}
           </div>
           <div className="form-group">
-            <label htmlFor={`amount-${index}`}>Amount</label>
-            <input
+            <Text >Amount</Text>
+            <Input
               type="text"
               className="form-control"
               {...register(`transactions.${index}.amount`, { required: true })}
@@ -77,17 +78,17 @@ const SendMultipleEthForm = () => {
               <span>This field is required</span>
             )}
           </div>
-          <button type="button" onClick={() => remove(index)}>
+          <Button type="button" onClick={() => remove(index)}>
             Remove
-          </button>
+          </Button>
         </div>
       ))}
-      <button type="button" onClick={() => append({ address: "", amount: "" })}>
+      <Button type="button" onClick={() => append({ address: "", amount: "" })}>
         Add Transaction
-      </button>
-      <button type="submit" className="btn btn-primary">
+      </Button>
+      <Button type="submit" className="btn btn-primary">
         Send
-      </button>
+      </Button>
       <div>
         {(isPending || isLoading) && (
           <div className="spinner-border text-primary" role="status">

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { parseEther } from "viem";
+import { Button, Input, Text } from "@chakra-ui/react";
 import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import MultiSendContract from "../../shared/abi/MultiSend.json";
 
@@ -35,8 +36,8 @@ const SendEthForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="form-group">
-        <label htmlFor="address">Address</label>
-        <input
+        <Text>Address</Text>
+        <Input
           type="text"
           className="form-control"
           id="address"
@@ -45,8 +46,8 @@ const SendEthForm = () => {
         {errors.address && <span>This field is required</span>}
       </div>
       <div className="form-group">
-        <label htmlFor="amount">Amount</label>
-        <input
+        <Text >Amount</Text>
+        <Input
           type="text"
           className="form-control"
           id="amount"
@@ -54,9 +55,9 @@ const SendEthForm = () => {
         />
         {errors.amount && <span>This field is required</span>}
       </div>
-      <button type="submit" className="btn btn-primary">
+      <Button type="submit" className="btn btn-primary">
         Send
-      </button>
+      </Button>
       <div>
         {(isPending || isLoading) && (
           <div className="spinner-border text-primary" role="status">

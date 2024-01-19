@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import styles from "./page.module.css";
+import { Button } from "@chakra-ui/react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { injected } from "wagmi/connectors";
 import SendEthForm from "./shared/components/SendEthForm";
@@ -14,11 +15,11 @@ export default function Home() {
   return (
     <main className={styles.main}>
       {!address ? (
-        <button onClick={() => connect({ connector: injected() })}>
+        <Button onClick={() => connect({ connector: injected() })}>
           Connect
-        </button>
+        </Button>
       ) : (
-        <button onClick={() => disconnect()}>Disconnect</button>
+        <Button onClick={() => disconnect()}>Disconnect</Button>
       )}
       <SendEthForm />
       <SendMultipleEthForm />
