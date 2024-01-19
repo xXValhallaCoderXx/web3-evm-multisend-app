@@ -6,7 +6,7 @@ export const wagmiConfig = createConfig({
   transports: {
     // [mainnet.id]: http(),
     // [sepolia.id]: http(),
-    // [goerli.id]: http(),
+    [goerli.id]: http(),
     [localhost.id]: http(),
   },
 });
