@@ -1,17 +1,31 @@
 "use client";
 import { parseEther } from "viem";
-import { Text, Button, Flex, Box } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { Text, Button, Flex, Box, useToast } from "@chakra-ui/react";
 import TransactionRow from "@/components/molecules/TransactionRow";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import MultiSendContract from "@/shared/abi/MultiSend.json";
+import LoadingOverlay from "@/components/molecules/LoadingOverlay";
 
 const MultiSendEthForm = () => {
-  const { writeContract, isPending, isSuccess, data } = useWriteContract();
+  const toast = useToast();
+  const {
+    writeContract,
+    isPending,
+    isSuccess,
+    data,
+    error: writeError,
+    failureReason: writeErrorFailureReason,
+    isError: isWriteError,
+    ...restWrite
+  } = useWriteContract();
   const {
     isError,
     isLoading,
     isSuccess: isTxSuccess,
+    isPending: isTxPending,
+    ...restTx
   } = useWaitForTransactionReceipt({
     hash: data,
   });
@@ -31,30 +45,51 @@ const MultiSendEthForm = () => {
     control,
     name: "recipients",
   });
+  console.log("isWriteError: ", isWriteError);
+  useEffect(() => {
+    if (isWriteError) {
+      console.log("TOAST ERROR: ", writeError);
+      toast({
+        title: "Error",
+        description:
+          // @ts-ignore
+          writeErrorFailureReason?.shortMessage ??
+          "An unknow error occured, this has been logged",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  }, [isWriteError]);
 
   const onSubmit = async (data: any) => {
     console.log(data);
+    if (data?.recipients?.length && data?.recipients?.length > 0) {
+      const recipients: any = [];
+      const amounts: any = [];
+      let totalAmount: any = null;
+      data.recipients.forEach((recipient: any) => {
+        recipients.push(recipient.address);
+        amounts.push(parseEther(recipient.amount));
+        totalAmount += parseFloat(recipient.amount);
+      });
 
-    const recipients: any = [];
-    const amounts: any = [];
-    let totalAmount: any = null;
-    data.transactions.forEach((transaction: any) => {
-      recipients.push(transaction.address);
-      amounts.push(parseEther(transaction.amount));
-      totalAmount += parseFloat(transaction.amount);
-    });
-
-    // writeContract({
-    //   address: "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
-    //   abi: MultiSendContract.abi,
-    //   functionName: "multiSendEth",
-    //   args: [recipients, amounts],
-    //   value: parseEther(String(totalAmount)),
-    // });
+      writeContract({
+        address: "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+        abi: MultiSendContract.abi,
+        functionName: "multiSendEth",
+        args: [recipients, amounts],
+        value: parseEther(String(totalAmount)),
+      });
+    } else {
+      window.alert("Should not be here");
+    }
   };
-
+  console.log("REST WRITE: ", isPending);
+  console.log("REST TX: ", restTx);
   return (
     <div>
+      <LoadingOverlay isLoading={isPending} />
       <Text fontSize="2xl" fontWeight={600}>
         Batch Send ETH Payments
       </Text>

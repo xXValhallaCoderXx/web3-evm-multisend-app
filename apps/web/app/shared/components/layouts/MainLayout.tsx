@@ -63,23 +63,39 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
         switchChain({ chainId: parseInt(e.target.value) })
     }
     console.log("CHAIN ID: ", rest)
-    return <div>
-        <Box >
-            <Flex p={2} justifyContent="space-between">
-                <Box>
-                    <Text>Multisend</Text>
-                </Box>
-                <Flex alignItems="center" justifyContent="space-between" gap={4}>
-                    {address && <Select onChange={handleOnChangeChain} defaultValue={chainId} w={140} size="xs" placeholder='Select Network'>
-                        {parseChainOptions().map(chain => <option value={chain?.value}>{chain?.label}</option>)}
-                    </Select>}
-                    <Text fontSize="xs" >{address}</Text>
-                    <Button size="xs" onClick={handleOnClick}>{address ? "DIsconnect" : "Connect"}</Button>
-                </Flex>
+    return (
+      <div>
+        <Box>
+          <Flex p={2} justifyContent="space-between">
+            <Box>
+              <Text>Multisend</Text>
+            </Box>
+            <Flex alignItems="center" justifyContent="space-between" gap={4}>
+              {address && (
+                <Select
+                  onChange={handleOnChangeChain}
+                  defaultValue={chainId}
+                  w={140}
+                  size="xs"
+                  placeholder="Select Network"
+                >
+                  {parseChainOptions().map((chain) => (
+                    <option key={chain?.value} value={chain?.value}>
+                      {chain?.label}
+                    </option>
+                  ))}
+                </Select>
+              )}
+              <Text fontSize="xs">{address}</Text>
+              <Button size="xs" onClick={handleOnClick}>
+                {address ? "DIsconnect" : "Connect"}
+              </Button>
             </Flex>
+          </Flex>
         </Box>
         {children}
-    </div>
+      </div>
+    );
 }
 
 export default MainLayout

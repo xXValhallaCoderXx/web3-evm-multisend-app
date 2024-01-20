@@ -34,7 +34,9 @@ const TransactionRow: FC<ITransactionRowProps> = ({
             id={`${field.id}-address`}
             placeholder="Enter address..."
             size="sm"
-            {...register(`recipients[${index}].address`)}
+            {...register(`recipients[${index}].address`, {
+              required: true,
+            })}
           />
           <FormErrorMessage>adasda</FormErrorMessage>
         </FormControl>
@@ -44,7 +46,10 @@ const TransactionRow: FC<ITransactionRowProps> = ({
             id={`${field.id}-amount`}
             placeholder="Enter amount..."
             size="sm"
-            {...register(`recipients[${index}].amount`)}
+            {...register(`recipients[${index}].amount`, {
+              required: true,
+              maxLength: 30,
+            })}
           />
           <FormErrorMessage>adasda</FormErrorMessage>
         </FormControl>
