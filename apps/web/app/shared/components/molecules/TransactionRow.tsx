@@ -1,33 +1,64 @@
-import { Text, Input, Button } from "@chakra-ui/react"
+import { Box, Flex } from "@chakra-ui/react";
+import {
+  Button,
+  FormErrorMessage,
+  FormLabel,
+  FormControl,
+  Input,
+} from "@chakra-ui/react";
+import { FC } from "react";
 
-const TransactionRow = () => {
-    return <div key={1}>
-        <div className="form-group">
-            <Text >Address</Text>
-            {/* <Input
-                type="text"
-                className="form-control"
-                {...register(`transactions.${index}.address`, { required: true })}
-            />
-            {errors.transactions?.[index]?.address && (
-                <span>This field is required</span>
-            )} */}
-        </div>
-        <div className="form-group">
-            <Text >Amount</Text>
-            {/* <Input
-                type="text"
-                className="form-control"
-                {...register(`transactions.${index}.amount`, { required: true })}
-            />
-            {errors.transactions?.[index]?.amount && (
-                <span>This field is required</span>
-            )} */}
-        </div>
-        {/* <Button type="button" onClick={() => remove(index)}>
-            Remove
-        </Button> */}
-    </div>
+interface ITransactionRowProps {
+  field: any;
+  register: any;
+  index: any;
+  onClickRemoveRow: (_index: number) => void;
+  onClickCopyRow: (_index: number) => void;
 }
 
-export default TransactionRow
+const TransactionRow: FC<ITransactionRowProps> = ({
+  field,
+  register,
+  index,
+  onClickCopyRow,
+  onClickRemoveRow,
+}) => {
+  const onClickDelete = () => onClickRemoveRow(index);
+  const onClickCopy = () => onClickCopyRow(index);
+  return (
+    <Flex key={1} gap={4}>
+      <Flex gap={8}>
+        <FormControl isInvalid={false}>
+          <FormLabel htmlFor="address">Address</FormLabel>
+          <Input
+            id={`${field.id}-address`}
+            placeholder="Enter address..."
+            size="sm"
+            {...register(`recipients[${index}].address`)}
+          />
+          <FormErrorMessage>adasda</FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={false}>
+          <FormLabel htmlFor="amount">Amount</FormLabel>
+          <Input
+            id={`${field.id}-amount`}
+            placeholder="Enter amount..."
+            size="sm"
+            {...register(`recipients[${index}].amount`)}
+          />
+          <FormErrorMessage>adasda</FormErrorMessage>
+        </FormControl>
+      </Flex>
+      <Flex gap={2} alignItems="end">
+        <Button size="sm" onClick={onClickDelete}>
+          Delete
+        </Button>
+        <Button size="sm" onClick={onClickCopy}>
+          Copy
+        </Button>
+      </Flex>
+    </Flex>
+  );
+};
+
+export default TransactionRow;
