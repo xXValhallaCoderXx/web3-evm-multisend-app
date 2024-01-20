@@ -26,7 +26,7 @@ const TransactionRow: FC<ITransactionRowProps> = ({
   const onClickDelete = () => onClickRemoveRow(index);
   const onClickCopy = () => onClickCopyRow(index);
   return (
-    <Flex key={1} gap={4}>
+    <Flex key={1} gap={4} mt={4}>
       <Flex gap={8}>
         <FormControl isInvalid={false}>
           <FormLabel htmlFor="address">Address</FormLabel>

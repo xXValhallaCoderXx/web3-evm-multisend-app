@@ -16,7 +16,7 @@ const MultiSendEthForm = () => {
   const {
     writeContract,
     isPending,
-    isSuccess,
+    isSuccess: isWriteSuccess,
     data,
     error: writeError,
     failureReason: writeErrorFailureReason,
@@ -44,6 +44,14 @@ const MultiSendEthForm = () => {
     },
   });
 
+  console.log("REST WRITE: ", restWrite);
+  console.log("REST TX: ", restTx);
+  console.log("IS TX PENDING: ", isTxPending);
+  console.log("IS TX SUCCESS: ", isTxSuccess);
+  console.log("IS TX ERROR: ", isError);
+  console.log("IS WRITE PENDING: ", isPending);
+  console.log("IS WRITE ERROR: ", isWriteError);
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "recipients",
@@ -60,8 +68,17 @@ const MultiSendEthForm = () => {
         duration: 5000,
         isClosable: true,
       });
+    } else if (isWriteSuccess) {
+      toast({
+        title: "Action Success",
+        // @ts-ignore
+        description: "Transaction sent",
+        status: "success",
+        duration: 2500,
+        isClosable: true,
+      });
     }
-  }, [isWriteError]);
+  }, [isWriteError, isWriteSuccess]);
 
   useEffect(() => {
     const totalAmount = watch("recipients")?.reduce((accumulator, item) => {
@@ -81,7 +98,9 @@ const MultiSendEthForm = () => {
         amounts.push(parseEther(recipient.amount));
         totalAmount += parseFloat(recipient.amount);
       });
-
+      console.log("amounts: ", amounts);
+      console.log("recipients: ", recipients);
+      console.log("totalAmount: ", totalAmount);
       writeContract({
         address: "0x5fbdb2315678afecb367f032d93f642f64180aa3",
         abi: MultiSendContract.abi,
@@ -95,23 +114,25 @@ const MultiSendEthForm = () => {
   };
 
   return (
-    <div>
+    <Box maxH="100vh">
       <LoadingOverlay isLoading={isPending} />
       <Text fontSize="2xl" fontWeight={600}>
         Batch Send ETH Payments
       </Text>
       <Box mt={4}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {fields.map((field, index) => (
-            <TransactionRow
-              key={index}
-              index={index}
-              field={field}
-              register={register}
-              onClickCopyRow={() => append({ address: "", amount: "" })}
-              onClickRemoveRow={remove}
-            />
-          ))}
+          <Box maxH={450} p={4} overflowY="auto">
+            {fields.map((field, index) => (
+              <TransactionRow
+                key={index}
+                index={index}
+                field={field}
+                register={register}
+                onClickCopyRow={() => append({ address: "", amount: "" })}
+                onClickRemoveRow={remove}
+              />
+            ))}
+          </Box>
 
           <Flex justifyContent="flex-end" mt={4}>
             <Button type="submit" className="btn btn-primary">
@@ -120,7 +141,7 @@ const MultiSendEthForm = () => {
           </Flex>
         </form>
       </Box>
-    </div>
+    </Box>
   );
 };
 export default MultiSendEthForm;

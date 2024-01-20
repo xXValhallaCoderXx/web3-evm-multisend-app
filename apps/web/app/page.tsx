@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useAppSelector } from "@/shared/hooks/redux-hooks";
 import { Flex, Box, Text, Stack, Radio } from "@chakra-ui/react";
-
+import SendMultipleEthForm from "@/components/SendMultipleEth";
 import MainLayout from "./shared/components/layouts/MainLayout";
 import MultiSendEthForm from "./shared/components/organisms/MultiSendEth";
 import MultiSendToken from "./shared/components/organisms/MultiSendTokens";
