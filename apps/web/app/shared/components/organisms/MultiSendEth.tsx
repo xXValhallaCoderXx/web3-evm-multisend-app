@@ -1,6 +1,8 @@
 "use client";
 import { parseEther } from "viem";
 import { useEffect } from "react";
+import { useAppDispatch } from "@/shared/hooks/redux-hooks";
+import { setTotal } from "@/shared/slice/transaction-slice";
 import { Text, Button, Flex, Box, useToast } from "@chakra-ui/react";
 import TransactionRow from "@/components/molecules/TransactionRow";
 import { useForm, useFieldArray } from "react-hook-form";
@@ -9,6 +11,7 @@ import MultiSendContract from "@/shared/abi/MultiSend.json";
 import LoadingOverlay from "@/components/molecules/LoadingOverlay";
 
 const MultiSendEthForm = () => {
+  const dispatch = useAppDispatch();
   const toast = useToast();
   const {
     writeContract,
@@ -45,10 +48,8 @@ const MultiSendEthForm = () => {
     control,
     name: "recipients",
   });
-  console.log("isWriteError: ", isWriteError);
   useEffect(() => {
     if (isWriteError) {
-      console.log("TOAST ERROR: ", writeError);
       toast({
         title: "Error",
         description:
@@ -61,6 +62,13 @@ const MultiSendEthForm = () => {
       });
     }
   }, [isWriteError]);
+
+  useEffect(() => {
+    const totalAmount = watch("recipients")?.reduce((accumulator, item) => {
+      return accumulator + Number(item.amount);
+    }, 0);
+    dispatch(setTotal(totalAmount));
+  }, [watch()]);
 
   const onSubmit = async (data: any) => {
     console.log(data);
@@ -85,8 +93,7 @@ const MultiSendEthForm = () => {
       window.alert("Should not be here");
     }
   };
-  console.log("REST WRITE: ", isPending);
-  console.log("REST TX: ", restTx);
+
   return (
     <div>
       <LoadingOverlay isLoading={isPending} />
