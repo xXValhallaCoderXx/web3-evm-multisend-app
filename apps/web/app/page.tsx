@@ -1,76 +1,45 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useAppSelector } from "@/shared/hooks/redux-hooks";
-import { Flex, Box, Text, Stack, Radio } from "@chakra-ui/react";
-import SendMultipleEthForm from "@/components/SendMultipleEth";
+import { Flex } from "@chakra-ui/react";
 import MainLayout from "./shared/components/layouts/MainLayout";
 import MultiSendEthForm from "./shared/components/organisms/MultiSendEth";
 import MultiSendToken from "./shared/components/organisms/MultiSendTokens";
+import PaymentBreakdownCard from "@/components/organisms/PaymentBreakdownCard";
+import PaymentTypeCard from "@/components/organisms/PaymentTypeCard";
+import RecentTransactionsCard from "@/components/organisms/RecentTransactions";
+import LoadingOverlay from "@/components/molecules/LoadingOverlay";
+import CsvUpload from "@/components/molecules/CsvUpload";
 
 export default function Home() {
-  const totalAmount = useAppSelector((state) => state.transaction.total);
-  console.log("totalAmount: ", totalAmount);
-  const [paymentType, setPaymentType] = useState("native");
+  const paymentType = useAppSelector((state) => state.transaction.paymentType);
+
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  const handleOnChangePaymentType = (_e: any) => {
-    setPaymentType(_e?.target?.name);
-  };
-
   if (!isClient) {
-    return <div>Loading</div>;
+    return <LoadingOverlay isLoading />;
   }
   return (
     <MainLayout>
-      <Flex justifyContent="center">
-        <Box w={1200}>
-          <Flex flexDirection="row">
-            <Box w="30%">
-              <Text fontSize="lg" fontWeight={600}>
-                Payment Type
-              </Text>
-              <Stack mt={2}>
-                <Radio
-                  onChange={handleOnChangePaymentType}
-                  isChecked={paymentType === "native"}
-                  size="md"
-                  name="native"
-                >
-                  Batch Send Native Currency
-                </Radio>
-                <Radio
-                  onChange={handleOnChangePaymentType}
-                  isChecked={paymentType === "token"}
-                  size="md"
-                  name="token"
-                >
-                  Batch Multiple Token
-                </Radio>
-              </Stack>
-              <Box mt={4}>
-                <Text fontSize="lg" fontWeight={600}>
-                  Transaction Details
-                </Text>
-                <Text fontSize="2xl">{totalAmount} ETH</Text>
-                <Text fontSize="sm" color="gray" mt={-1}>
-                  $0.00
-                </Text>
-              </Box>
-            </Box>
-            <Box>
-              {" "}
-              {paymentType === "native" && <MultiSendEthForm />}
-              {paymentType === "token" && <MultiSendToken />}
-            </Box>
-          </Flex>
-          <Box mt={4}>
-            <Text>Recent Transfers</Text>
-          </Box>
-        </Box>
+      <Flex p={4} mt={6} justifyContent="flex-end">
+        <CsvUpload />
+      </Flex>
+      <Flex bgColor="red" mt={4} p={4} gap={4} flexDirection="row">
+        <Flex flex="1" flexDirection="column" bgColor="red" gap={4}>
+          <PaymentTypeCard />
+          <PaymentBreakdownCard />
+        </Flex>
+        <Flex flex="2">
+          {paymentType === "native" && <MultiSendEthForm />}
+          {paymentType === "token" && <MultiSendToken />}
+        </Flex>
+        <Flex flex="2">
+          <RecentTransactionsCard />
+        </Flex>
       </Flex>
     </MainLayout>
   );

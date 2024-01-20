@@ -3,15 +3,25 @@ import { parseEther } from "viem";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/shared/hooks/redux-hooks";
 import { setTotal } from "@/shared/slice/transaction-slice";
-import { Text, Button, Flex, Box, useToast } from "@chakra-ui/react";
+import {
+  Text,
+  Button,
+  Flex,
+  Box,
+  useToast,
+  Card,
+  CardBody,
+} from "@chakra-ui/react";
 import TransactionRow from "@/components/molecules/TransactionRow";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import MultiSendContract from "@/shared/abi/MultiSend.json";
 import LoadingOverlay from "@/components/molecules/LoadingOverlay";
+import { useCSVReader } from "react-papaparse";
 
 const MultiSendEthForm = () => {
   const dispatch = useAppDispatch();
+  const { CSVReader } = useCSVReader();
   const toast = useToast();
   const {
     writeContract,
@@ -36,21 +46,14 @@ const MultiSendEthForm = () => {
     register,
     control,
     watch,
+    getValues,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     defaultValues: {
       recipients: [{ address: "", amount: "" }],
     },
   });
-
-  console.log("REST WRITE: ", restWrite);
-  console.log("REST TX: ", restTx);
-  console.log("IS TX PENDING: ", isTxPending);
-  console.log("IS TX SUCCESS: ", isTxSuccess);
-  console.log("IS TX ERROR: ", isError);
-  console.log("IS WRITE PENDING: ", isPending);
-  console.log("IS WRITE ERROR: ", isWriteError);
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -81,8 +84,9 @@ const MultiSendEthForm = () => {
   }, [isWriteError, isWriteSuccess]);
 
   useEffect(() => {
+    console.log("watch", watch());
     const totalAmount = watch("recipients")?.reduce((accumulator, item) => {
-      return accumulator + Number(item.amount);
+      return accumulator + Number(item.amount) ?? 0;
     }, 0);
     dispatch(setTotal(totalAmount));
   }, [watch()]);
@@ -98,9 +102,7 @@ const MultiSendEthForm = () => {
         amounts.push(parseEther(recipient.amount));
         totalAmount += parseFloat(recipient.amount);
       });
-      console.log("amounts: ", amounts);
-      console.log("recipients: ", recipients);
-      console.log("totalAmount: ", totalAmount);
+
       writeContract({
         address: "0x5fbdb2315678afecb367f032d93f642f64180aa3",
         abi: MultiSendContract.abi,
@@ -113,35 +115,45 @@ const MultiSendEthForm = () => {
     }
   };
 
+  const handleOnClickDelete = (_index: any) => {
+    const recipients = getValues("recipients");
+    if (recipients.length > 1) {
+      remove(_index);
+    }
+  };
+  console.log("errors", errors);
   return (
-    <Box maxH="100vh">
-      <LoadingOverlay isLoading={isPending} />
-      <Text fontSize="2xl" fontWeight={600}>
-        Batch Send ETH Payments
-      </Text>
-      <Box mt={4}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Box maxH={450} p={4} overflowY="auto">
-            {fields.map((field, index) => (
-              <TransactionRow
-                key={index}
-                index={index}
-                field={field}
-                register={register}
-                onClickCopyRow={() => append({ address: "", amount: "" })}
-                onClickRemoveRow={remove}
-              />
-            ))}
-          </Box>
+    <Card w="full">
+      <CardBody>
+        <LoadingOverlay isLoading={isPending} />
+        <Text fontSize="2xl" fontWeight={600}>
+          Batch Send ETH Payments
+        </Text>
+        <Box mt={4}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box maxH={450} overflowY="auto">
+              {fields.map((field, index) => (
+                <TransactionRow
+                  key={index}
+                  errors={errors?.recipients?.[index]}
+                  index={index}
+                  field={field}
+                  register={register}
+                  onClickCopyRow={() => append({ address: "", amount: "" })}
+                  onClickRemoveRow={handleOnClickDelete}
+                />
+              ))}
+            </Box>
 
-          <Flex justifyContent="flex-end" mt={4}>
-            <Button type="submit" className="btn btn-primary">
-              Submit
-            </Button>
-          </Flex>
-        </form>
-      </Box>
-    </Box>
+            <Flex justifyContent="flex-end" mt={6}>
+              <Button type="submit" className="btn btn-primary">
+                Submit
+              </Button>
+            </Flex>
+          </form>
+        </Box>
+      </CardBody>
+    </Card>
   );
 };
 export default MultiSendEthForm;
