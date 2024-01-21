@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { parseEther } from "viem";
 import { Button, Input, Text } from "@chakra-ui/react";
 import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
-import MultiSendContract from "../../shared/abi/MultiSend.json";
+import MultiSendContract from "../../abi/MultiSend.json";
 
 const SendEthForm = () => {
   const {
@@ -46,7 +46,7 @@ const SendEthForm = () => {
         {errors.address && <span>This field is required</span>}
       </div>
       <div className="form-group">
-        <Text >Amount</Text>
+        <Text>Amount</Text>
         <Input
           type="text"
           className="form-control"

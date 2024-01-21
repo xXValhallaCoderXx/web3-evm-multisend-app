@@ -1,6 +1,6 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import {
-  Button,
+  Select,
   FormErrorMessage,
   FormLabel,
   FormControl,
@@ -10,9 +10,11 @@ import {
 import { FC } from "react";
 import { isAddress } from "viem";
 import { DeleteIcon, CopyIcon } from "@chakra-ui/icons";
+import { TOKEN_CONTRACTS } from "@/shared/constants/token-contracts";
 
 interface ITransactionRowProps {
   field: any;
+  chainId: number;
   register: any;
   index: any;
   errors: any;
@@ -35,15 +37,21 @@ const validationRules = {
       message: "Amount must be a number",
     },
   },
+  token: {
+    required: "Token is required",
+  },
 };
 const TransactionRow: FC<ITransactionRowProps> = ({
   field,
   register,
   index,
+  chainId,
   errors,
   onClickCopyRow,
   onClickRemoveRow,
 }) => {
+  const defaultTokens = TOKEN_CONTRACTS[chainId];
+  console.log(defaultTokens);
   const onClickDelete = () => onClickRemoveRow(index);
   const onClickCopy = () => onClickCopyRow(index);
   return (
@@ -67,6 +75,30 @@ const TransactionRow: FC<ITransactionRowProps> = ({
             {errors?.address?.message}
           </FormErrorMessage>
         </FormControl>
+        {"token" in field && (
+          <FormControl h={20} isInvalid={errors?.token?.message}>
+            <FormLabel mb={0} fontSize="small" htmlFor="token">
+              Token
+            </FormLabel>
+            <Select
+              size="sm"
+              {...register(`recipients[${index}].token`, validationRules.token)}
+              placeholder="Select option"
+            >
+              {defaultTokens.map((token: any) => {
+                return (
+                  <option key={token.address} value={token.address}>
+                    {token.symbol}
+                  </option>
+                );
+              })}
+            </Select>
+
+            <FormErrorMessage fontSize="x-small">
+              {errors?.token?.message}
+            </FormErrorMessage>
+          </FormControl>
+        )}
         <FormControl h={20} isInvalid={errors?.amount?.message}>
           <FormLabel mb={0} fontSize="small" htmlFor="amount">
             Amount

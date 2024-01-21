@@ -14,7 +14,11 @@ import {
 } from "@chakra-ui/react";
 import TransactionRow from "@/components/molecules/TransactionRow";
 import { useForm, useFieldArray } from "react-hook-form";
-import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import {
+  useWriteContract,
+  useWaitForTransactionReceipt,
+  useChainId,
+} from "wagmi";
 import MultiSendContract from "@/shared/abi/MultiSend.json";
 import LoadingOverlay from "@/components/molecules/LoadingOverlay";
 import { useCSVReader } from "react-papaparse";
@@ -22,6 +26,7 @@ import { useCSVReader } from "react-papaparse";
 const MultiSendEthForm = () => {
   const dispatch = useAppDispatch();
   const { CSVReader } = useCSVReader();
+  const chainId = useChainId();
   const toast = useToast();
   const {
     writeContract,
@@ -42,10 +47,14 @@ const MultiSendEthForm = () => {
   } = useWaitForTransactionReceipt({
     hash: data,
   });
+
+  console.log("IS TX PENDING", isTxSuccess);
+  console.log("IS TX isWriteSuccess", isWriteSuccess);
   const {
     register,
     control,
     watch,
+    reset,
     getValues,
     handleSubmit,
     formState: { errors, isValid },
@@ -80,6 +89,7 @@ const MultiSendEthForm = () => {
         duration: 2500,
         isClosable: true,
       });
+      reset();
     }
   }, [isWriteError, isWriteSuccess]);
 
@@ -135,6 +145,7 @@ const MultiSendEthForm = () => {
               {fields.map((field, index) => (
                 <TransactionRow
                   key={index}
+                  chainId={chainId}
                   errors={errors?.recipients?.[index]}
                   index={index}
                   field={field}

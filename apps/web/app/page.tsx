@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useAppSelector } from "@/shared/hooks/redux-hooks";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Button, useDisclosure } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
 import MainLayout from "./shared/components/layouts/MainLayout";
 import MultiSendEthForm from "./shared/components/organisms/MultiSendEth";
 import MultiSendToken from "./shared/components/organisms/MultiSendTokens";
@@ -10,10 +11,11 @@ import PaymentTypeCard from "@/components/organisms/PaymentTypeCard";
 import RecentTransactionsCard from "@/components/organisms/RecentTransactions";
 import LoadingOverlay from "@/components/molecules/LoadingOverlay";
 import CsvUpload from "@/components/molecules/CsvUpload";
+import AddTokenModal from "@/components/molecules/AddTokenModal";
 
 export default function Home() {
   const paymentType = useAppSelector((state) => state.transaction.paymentType);
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -23,10 +25,16 @@ export default function Home() {
   if (!isClient) {
     return <LoadingOverlay isLoading />;
   }
+
   return (
     <MainLayout>
       <Flex p={4} mt={6} justifyContent="flex-end">
-        <CsvUpload />
+        <Flex gap={2}>
+          <Button onClick={onOpen} leftIcon={<AddIcon />} size="sm">
+            Add Token
+          </Button>
+          <CsvUpload />
+        </Flex>
       </Flex>
       <Flex bgColor="red" mt={4} p={4} gap={4} flexDirection="row">
         <Flex flex="1" flexDirection="column" bgColor="red" gap={4}>
@@ -41,6 +49,7 @@ export default function Home() {
           <RecentTransactionsCard />
         </Flex>
       </Flex>
+      <AddTokenModal onClose={onClose} isOpen={isOpen} />
     </MainLayout>
   );
 }
