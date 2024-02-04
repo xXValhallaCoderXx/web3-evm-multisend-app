@@ -135,33 +135,32 @@ const MultiSendEthForm = () => {
     <Card bgColor="#201B43" w="full">
       <CardBody>
         <LoadingOverlay isLoading={isPending} />
-        <Text fontSize="2xl" fontWeight={600}>
+        <Text mb={2} fontSize="2xl" color="white" fontWeight={600}>
           Batch Send ETH Payments
         </Text>
-        <Box mt={4}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Flex flexDir="column" maxH={450} overflowY="auto">
-              {fields.map((field, index) => (
-                <TransactionRow
-                  key={index}
-                  chainId={chainId}
-                  errors={errors?.recipients?.[index]}
-                  index={index}
-                  field={field}
-                  register={register}
-                  onClickCopyRow={() => append({ address: "", amount: "" })}
-                  onClickRemoveRow={handleOnClickDelete}
-                />
-              ))}
-            </Flex>
 
-            <Flex justifyContent="flex-end" mt={6}>
-              <Button color="primary" type="submit">
-                Submits
-              </Button>
-            </Flex>
-          </form>
-        </Box>
+        <form style={{ height: "100%" }} onSubmit={handleSubmit(onSubmit)}>
+          <Flex flexDir="column" height="75%" maxHeight="75%" overflowY="auto">
+            {fields.map((field, index) => (
+              <TransactionRow
+                key={index}
+                chainId={chainId}
+                errors={errors?.recipients?.[index]}
+                index={index}
+                field={field}
+                register={register}
+                onClickCopyRow={() => append({ address: "", amount: "" })}
+                onClickRemoveRow={handleOnClickDelete}
+              />
+            ))}
+          </Flex>
+
+          <Flex justifyContent="flex-end" mt={6}>
+            <Button colorScheme="secondary" size="sm" type="submit">
+              Submit
+            </Button>
+          </Flex>
+        </form>
       </CardBody>
     </Card>
   );

@@ -87,7 +87,7 @@ const TransactionRow: FC<ITransactionRowProps> = ({
               {...register(`recipients[${index}].token`, validationRules.token)}
               placeholder="Select option"
             >
-              {defaultTokens.map((token: any) => {
+              {defaultTokens?.map((token: any) => {
                 return (
                   <option key={token.address} value={token.address}>
                     {token.symbol}

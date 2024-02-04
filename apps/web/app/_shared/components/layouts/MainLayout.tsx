@@ -49,11 +49,12 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
     }
   }, [isSwitchSuccess, isSwitchError]);
 
-  const handleOnClick = () => {
+  const handleWalletConnection = () => {
     if (address) {
       disconnect();
+    } else {
+      connect({ connector: injected() });
     }
-    connect({ connector: injected() });
   };
 
   const parseChainOptions = () => {
@@ -75,7 +76,7 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
       <TopNavigationBar
         address={address}
         chainId={chainId}
-        handleOnClick={handleOnClick}
+        onClickConnectButton={handleWalletConnection}
         handleOnChangeChain={handleOnChangeChain}
         chainOptions={parseChainOptions()}
       />

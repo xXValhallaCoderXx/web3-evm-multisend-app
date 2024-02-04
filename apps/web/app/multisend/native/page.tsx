@@ -33,33 +33,39 @@ export default function NativeSendPage() {
 
   return (
     <MainLayout>
-      <Flex p={4} mt={6} mb={4} justifyContent="flex-end">
-        <Flex gap={2}>
-          <CsvUpload />
-        </Flex>
-      </Flex>
-      <Flex flexDirection="column" gap={4} p={2}>
-        <Flex justifyContent="center">
-          <Flex width={1000} minWidth={600} gap={4}>
-            <Flex flexDir="column" gap={4} flex={1}>
-              <PaymentTypeCard
-                value={pathname}
-                onChange={paymentTypeOnChange}
-              />
-              <PaymentBreakdownCard />
-            </Flex>
-            <Flex flex={2} minH={500}>
-              <MultiSendEthForm />
+      <Flex
+        alignItems="center"
+        height="calc(100vh - 65px)"
+        flexDirection="column"
+        justifyContent="center"
+      >
+        <Flex gap={4} flexDir="column" width={1000}>
+          <Flex justifyContent="flex-end">
+            <Flex gap={4}>
+              <CsvUpload />
             </Flex>
           </Flex>
-        </Flex>
-        <Flex justifyContent="center">
-          <Box width={1000}>
-            <RecentTransactionsCard />
-          </Box>
+          <Flex justifyContent="center">
+            <Flex width={1000} minWidth={600} gap={4}>
+              <Flex flexDir="column" gap={4} flex={1}>
+                <PaymentTypeCard
+                  value={pathname}
+                  onChange={paymentTypeOnChange}
+                />
+                <PaymentBreakdownCard />
+              </Flex>
+              <Flex flex={2} minH={500}>
+                <MultiSendEthForm />
+              </Flex>
+            </Flex>
+          </Flex>
+          <Flex justifyContent="center">
+            <Box width={1000}>
+              <RecentTransactionsCard />
+            </Box>
+          </Flex>
         </Flex>
       </Flex>
-      <AddTokenModal onClose={onClose} isOpen={isOpen} />
     </MainLayout>
   );
 }

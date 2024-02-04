@@ -5,15 +5,17 @@ const RecentTransactionsCard = () => {
   return (
     <Card bgColor="#201B43" w="full">
       <CardBody>
-        <Text fontSize="xl" fontWeight={600}>
+        <Text color="white" fontSize="xl" fontWeight={600}>
           Recent Transactions
         </Text>
         <Flex justifyContent="center" mt={4} mb={2}>
           {!isUserSignedIn && (
             <Flex alignItems="center" flexDir="column">
-              <Text as="i">Sign in to view recent transactions</Text>
+              <Text color="white" as="i">
+                Sign in to view recent transactions
+              </Text>
               <Text fontSize="sm" color="gray">
-                Create an account to keep track of your recent transactions
+                Connect your wallet, to see your past transactions
               </Text>
             </Flex>
           )}
