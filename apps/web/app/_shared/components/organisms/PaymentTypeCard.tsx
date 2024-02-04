@@ -1,16 +1,19 @@
-import { useAppDispatch, useAppSelector } from "@/shared/hooks/redux-hooks";
-import { setPaymentType } from "@/shared/slice/transaction-slice";
+import { FC } from "react";
 import { Card, Radio, CardBody, Stack, Text } from "@chakra-ui/react";
 
-const PaymentTypeCard = () => {
-  const paymentType = useAppSelector((state) => state.transaction.paymentType);
-  const dispatch = useAppDispatch();
+interface IPaymentTypeCard {
+  value: string;
+  onChange?: (_value: string) => void;
+}
 
-  const handleOnChangePaymentType = (_e: any) => {
-    dispatch(setPaymentType(_e.target.name));
+const PaymentTypeCard: FC<IPaymentTypeCard> = ({ value, onChange }) => {
+  const handleOnChangePaymentType = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    onChange && onChange(e.target.name);
   };
   return (
-    <Card>
+    <Card w="100%">
       <CardBody>
         <Text fontSize="lg" fontWeight={600}>
           Payment Type
@@ -18,7 +21,7 @@ const PaymentTypeCard = () => {
         <Stack mt={2}>
           <Radio
             onChange={handleOnChangePaymentType}
-            isChecked={paymentType === "native"}
+            isChecked={value === "/multisend/native"}
             size="md"
             name="native"
           >
@@ -26,7 +29,7 @@ const PaymentTypeCard = () => {
           </Radio>
           <Radio
             onChange={handleOnChangePaymentType}
-            isChecked={paymentType === "token"}
+            isChecked={value === "/multisend/token"}
             size="md"
             name="token"
           >

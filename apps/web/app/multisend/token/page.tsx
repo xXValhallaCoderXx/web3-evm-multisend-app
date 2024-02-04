@@ -1,11 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useAppSelector } from "@/shared/hooks/redux-hooks";
-import { Flex, Button, useDisclosure } from "@chakra-ui/react";
+import { useRouter, usePathname } from "next/navigation";
+import { Flex, Button, useDisclosure, Box } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import MainLayout from "@/shared/components/layouts/MainLayout";
-import MultiSendEthForm from "@/shared/components/organisms/MultiSendEth";
-import MultiSendToken from "@/shared/components/organisms/MultiSendTokens";
+import MultiSendToken from "@/components/organisms/MultiSendTokens";
 import PaymentBreakdownCard from "@/components/organisms/PaymentBreakdownCard";
 import PaymentTypeCard from "@/components/organisms/PaymentTypeCard";
 import RecentTransactionsCard from "@/components/organisms/RecentTransactions";
@@ -14,9 +13,10 @@ import CsvUpload from "@/components/molecules/CsvUpload";
 import AddTokenModal from "@/components/molecules/AddTokenModal";
 
 export default function TokenSendPage() {
-  const paymentType = useAppSelector((state) => state.transaction.paymentType);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isClient, setIsClient] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     setIsClient(true);
@@ -26,29 +26,49 @@ export default function TokenSendPage() {
     return <LoadingOverlay isLoading />;
   }
 
+  const paymentTypeOnChange = (value: string) => {
+    router.push(value);
+  };
+
   return (
     <MainLayout>
-      <Flex p={4} mt={6} justifyContent="flex-end">
-        <Flex gap={2}>
-          <Button onClick={onOpen} leftIcon={<AddIcon />} size="sm">
-            Add Token
-          </Button>
-          <CsvUpload />
+      <Flex
+        alignItems="center"
+        height="calc(100vh - 65px)"
+        flexDirection="column"
+        justifyContent="center"
+      >
+        <Flex gap={4} flexDir="column" width={1000}>
+          <Flex justifyContent="flex-end">
+            <Flex gap={4}>
+              <Button onClick={onOpen} leftIcon={<AddIcon />} size="sm">
+                Add Token
+              </Button>
+              <CsvUpload />
+            </Flex>
+          </Flex>
+          <Flex justifyContent="center">
+            <Flex width={1000} minWidth={600} gap={4}>
+              <Flex flexDir="column" gap={4} flex={1}>
+                <PaymentTypeCard
+                  value={pathname}
+                  onChange={paymentTypeOnChange}
+                />
+                <PaymentBreakdownCard />
+              </Flex>
+              <Flex flex={2} minH={500}>
+                <MultiSendToken />
+              </Flex>
+            </Flex>
+          </Flex>
+          <Flex justifyContent="center">
+            <Box width={1000}>
+              <RecentTransactionsCard />
+            </Box>
+          </Flex>
         </Flex>
       </Flex>
-      <Flex bgColor="red" mt={4} p={4} gap={4} flexDirection="row">
-        <Flex flex="1" flexDirection="column" bgColor="red" gap={4}>
-          <PaymentTypeCard />
-          <PaymentBreakdownCard />
-        </Flex>
-        <Flex flex="2">
-          {paymentType === "native" && <MultiSendEthForm />}
-          {paymentType === "token" && <MultiSendToken />}
-        </Flex>
-        <Flex flex="2">
-          <RecentTransactionsCard />
-        </Flex>
-      </Flex>
+
       <AddTokenModal onClose={onClose} isOpen={isOpen} />
     </MainLayout>
   );

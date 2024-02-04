@@ -51,13 +51,13 @@ const TransactionRow: FC<ITransactionRowProps> = ({
   onClickRemoveRow,
 }) => {
   const defaultTokens = TOKEN_CONTRACTS[chainId];
-  console.log(defaultTokens);
+
   const onClickDelete = () => onClickRemoveRow(index);
   const onClickCopy = () => onClickCopyRow(index);
   return (
-    <Flex gap={4} mt={4}>
-      <Flex flex={1} gap={4}>
-        <FormControl h={20} isInvalid={errors?.address?.message}>
+    <Flex gap={2}>
+      <Flex flexGrow={1}>
+        <FormControl ml={1} h={20} isInvalid={errors?.address?.message}>
           <FormLabel mb={0} fontSize="small" htmlFor="address">
             Address
           </FormLabel>
@@ -75,6 +75,8 @@ const TransactionRow: FC<ITransactionRowProps> = ({
             {errors?.address?.message}
           </FormErrorMessage>
         </FormControl>
+      </Flex>
+      <Flex>
         {"token" in field && (
           <FormControl h={20} isInvalid={errors?.token?.message}>
             <FormLabel mb={0} fontSize="small" htmlFor="token">
@@ -99,14 +101,17 @@ const TransactionRow: FC<ITransactionRowProps> = ({
             </FormErrorMessage>
           </FormControl>
         )}
+      </Flex>
+      <Flex>
         <FormControl h={20} isInvalid={errors?.amount?.message}>
           <FormLabel mb={0} fontSize="small" htmlFor="amount">
             Amount
           </FormLabel>
           <Input
             id={`${field.id}-amount`}
-            placeholder="Enter amount..."
+            placeholder="0.00"
             size="sm"
+            maxW={100}
             {...register(`recipients[${index}].amount`, validationRules.amount)}
           />
 
@@ -115,13 +120,15 @@ const TransactionRow: FC<ITransactionRowProps> = ({
           </FormErrorMessage>
         </FormControl>
       </Flex>
-      <Flex alignItems="center" mb={2} gap={2}>
+      <Flex mt={5} gap={2}>
         <IconButton
+          size="sm"
           aria-label="delete-row"
           icon={<DeleteIcon />}
           onClick={onClickDelete}
         />
         <IconButton
+          size="sm"
           aria-label="copy-row"
           icon={<CopyIcon />}
           onClick={onClickCopy}

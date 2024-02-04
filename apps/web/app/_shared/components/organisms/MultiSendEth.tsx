@@ -48,8 +48,7 @@ const MultiSendEthForm = () => {
     hash: data,
   });
 
-  console.log("IS TX PENDING", isTxSuccess);
-  console.log("IS TX isWriteSuccess", isWriteSuccess);
+
   const {
     register,
     control,
@@ -141,7 +140,7 @@ const MultiSendEthForm = () => {
         </Text>
         <Box mt={4}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Box maxH={450} overflowY="auto">
+            <Flex flexDir="column" maxH={450} overflowY="auto">
               {fields.map((field, index) => (
                 <TransactionRow
                   key={index}
@@ -154,7 +153,7 @@ const MultiSendEthForm = () => {
                   onClickRemoveRow={handleOnClickDelete}
                 />
               ))}
-            </Box>
+            </Flex>
 
             <Flex justifyContent="flex-end" mt={6}>
               <Button type="submit" className="btn btn-primary">

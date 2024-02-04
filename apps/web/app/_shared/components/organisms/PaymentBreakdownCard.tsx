@@ -4,7 +4,7 @@ import { useAppSelector } from "@/shared/hooks/redux-hooks";
 const PaymentBreakdownCard = () => {
   const totalAmount = useAppSelector((state) => state.transaction.total);
   return (
-    <Card>
+    <Card height="100%" w="100%">
       <CardBody>
         <Text fontSize="lg" fontWeight={600}>
           Transaction Details
