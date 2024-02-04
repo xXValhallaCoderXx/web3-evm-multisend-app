@@ -50,7 +50,8 @@ const TransactionRow: FC<ITransactionRowProps> = ({
   onClickCopyRow,
   onClickRemoveRow,
 }) => {
-  const defaultTokens = TOKEN_CONTRACTS[chainId];
+  const defaultTokens = TOKEN_CONTRACTS[chainId ?? 1];
+  console.log("defaultTokens", defaultTokens);
 
   const onClickDelete = () => onClickRemoveRow(index);
   const onClickCopy = () => onClickCopyRow(index);
@@ -84,8 +85,15 @@ const TransactionRow: FC<ITransactionRowProps> = ({
             </FormLabel>
             <Select
               size="sm"
+              color="white"
+              sx={{
+                "> option": {
+                  background: "black",
+                  color: "white",
+                },
+              }}
               {...register(`recipients[${index}].token`, validationRules.token)}
-              placeholder="Select option"
+              placeholder="Select token"
             >
               {defaultTokens?.map((token: any) => {
                 return (
