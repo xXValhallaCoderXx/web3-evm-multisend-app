@@ -2,7 +2,7 @@
 import { FC } from "react";
 import { WagmiProvider } from "wagmi";
 import { ChakraProvider } from '@chakra-ui/react'
-import { wagmiConfig } from "../config/wagmi-config";
+import { wagmiConfig } from "@/shared/config/wagmi-config";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReduxProvider from "@/shared//providers/ReduxProviders";
 

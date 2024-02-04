@@ -13,8 +13,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "paths": {
-      "@/components/*": ["shared/components/*"],
-      "@/shared/*": ["shared/*"]
+      "@/components/*": ["_shared/components/*"],
+      "@/shared/*": ["_shared/*"]
     },
     "jsx": "preserve",
     "plugins": [
