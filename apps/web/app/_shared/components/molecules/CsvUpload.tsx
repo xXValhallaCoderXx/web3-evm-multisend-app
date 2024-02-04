@@ -30,6 +30,7 @@ const CsvUpload = () => {
       {({ file }: any) => (
         <aside>
           <Button
+            colorScheme="secondary"
             size="sm"
             onClick={() =>
               document?.getElementById("react-papaparse-input")?.click()

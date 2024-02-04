@@ -13,9 +13,9 @@ const PaymentTypeCard: FC<IPaymentTypeCard> = ({ value, onChange }) => {
     onChange && onChange(e.target.name);
   };
   return (
-    <Card w="100%">
+    <Card bgColor="#201B43" w="100%">
       <CardBody>
-        <Text fontSize="lg" fontWeight={600}>
+        <Text color="white" letterSpacing={0.9} fontSize="lg" fontWeight={600}>
           Payment Type
         </Text>
         <Stack mt={2}>
@@ -24,16 +24,22 @@ const PaymentTypeCard: FC<IPaymentTypeCard> = ({ value, onChange }) => {
             isChecked={value === "/multisend/native"}
             size="md"
             name="native"
+            colorScheme="primary"
           >
-            Batch Send Native Currency
+            <Text fontSize="sm" color="white">
+              Batch Send Native Currency
+            </Text>
           </Radio>
           <Radio
             onChange={handleOnChangePaymentType}
             isChecked={value === "/multisend/token"}
             size="md"
             name="token"
+            colorScheme="primary"
           >
-            Batch Multiple Token
+            <Text fontSize="sm" color="white">
+              Batch Multiple Token
+            </Text>
           </Radio>
         </Stack>
       </CardBody>

@@ -33,10 +33,10 @@ const MultiSendToken = () => {
     }
   };
   return (
-    <Card w="full">
+    <Card bgColor="#201B43" w="full">
       <CardBody>
         {/* <LoadingOverlay isLoading={isPending} /> */}
-        <Text fontSize="2xl" fontWeight={600}>
+        <Text fontSize="2xl" color="white" fontWeight={600}>
           Batch Send Token Payments
         </Text>
         <Box mt={4}>
@@ -58,8 +58,8 @@ const MultiSendToken = () => {
               ))}
             </Box>
 
-            <Flex justifyContent="flex-end" mt={6}>
-              <Button type="submit" className="btn btn-primary">
+            <Flex justifyContent="flex-end" mt={4}>
+              <Button colorScheme="secondary" size="sm" type="submit">
                 Submit
               </Button>
             </Flex>

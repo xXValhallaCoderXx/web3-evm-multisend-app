@@ -1,18 +1,27 @@
-import { Card, CardHeader, CardBody, CardFooter, Text } from "@chakra-ui/react";
+import { Card, Flex, CardBody, CardFooter, Text } from "@chakra-ui/react";
 import { useAppSelector } from "@/shared/hooks/redux-hooks";
 
 const PaymentBreakdownCard = () => {
   const totalAmount = useAppSelector((state) => state.transaction.total);
   return (
-    <Card height="100%" w="100%">
+    <Card bgColor="#201B43" height="100%" w="100%">
       <CardBody>
-        <Text fontSize="lg" fontWeight={600}>
+        <Text color="white" fontSize="lg" letterSpacing={0.8} fontWeight={600}>
           Transaction Details
         </Text>
-        <Text fontSize="2xl">{totalAmount} ETH</Text>
-        <Text fontSize="sm" color="gray" mt={-1}>
-          $0.00
-        </Text>
+        <Flex alignItems="flex-end" gap={2}>
+          <Text color="white" fontWeight={600} fontSize="2xl">
+            {totalAmount}
+          </Text>
+          <Text pb={0.5} color="white" fontSize="lg">
+            ETH
+          </Text>
+        </Flex>
+        <Flex>
+          <Text fontSize="sm" color="gray" mt={-1}>
+            $ 0.00 USD
+          </Text>
+        </Flex>
       </CardBody>
     </Card>
   );

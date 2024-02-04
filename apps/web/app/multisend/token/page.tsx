@@ -41,7 +41,12 @@ export default function TokenSendPage() {
         <Flex gap={4} flexDir="column" width={1000}>
           <Flex justifyContent="flex-end">
             <Flex gap={4}>
-              <Button onClick={onOpen} leftIcon={<AddIcon />} size="sm">
+              <Button
+                onClick={onOpen}
+                colorScheme="secondary"
+                leftIcon={<AddIcon fontSize={12} />}
+                size="sm"
+              >
                 Add Token
               </Button>
               <CsvUpload />

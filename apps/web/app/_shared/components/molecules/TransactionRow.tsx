@@ -58,7 +58,7 @@ const TransactionRow: FC<ITransactionRowProps> = ({
     <Flex gap={2}>
       <Flex flexGrow={1}>
         <FormControl ml={1} h={20} isInvalid={errors?.address?.message}>
-          <FormLabel mb={0} fontSize="small" htmlFor="address">
+          <FormLabel mb={0} color="white" fontSize="small" htmlFor="address">
             Address
           </FormLabel>
           <Input
@@ -79,7 +79,7 @@ const TransactionRow: FC<ITransactionRowProps> = ({
       <Flex>
         {"token" in field && (
           <FormControl h={20} isInvalid={errors?.token?.message}>
-            <FormLabel mb={0} fontSize="small" htmlFor="token">
+            <FormLabel color="white" mb={0} fontSize="small" htmlFor="token">
               Token
             </FormLabel>
             <Select
@@ -104,7 +104,7 @@ const TransactionRow: FC<ITransactionRowProps> = ({
       </Flex>
       <Flex>
         <FormControl h={20} isInvalid={errors?.amount?.message}>
-          <FormLabel mb={0} fontSize="small" htmlFor="amount">
+          <FormLabel color="white" mb={0} fontSize="small" htmlFor="amount">
             Amount
           </FormLabel>
           <Input
@@ -123,12 +123,14 @@ const TransactionRow: FC<ITransactionRowProps> = ({
       <Flex mt={5} gap={2}>
         <IconButton
           size="sm"
+          colorScheme="secondary"
           aria-label="delete-row"
           icon={<DeleteIcon />}
           onClick={onClickDelete}
         />
         <IconButton
           size="sm"
+          colorScheme="secondary"
           aria-label="copy-row"
           icon={<CopyIcon />}
           onClick={onClickCopy}

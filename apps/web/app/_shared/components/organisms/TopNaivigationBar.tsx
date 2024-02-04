@@ -10,6 +10,7 @@ import {
   Text,
   Button,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 
 interface ITopNavigationBarProps {
   address?: string;
@@ -52,8 +53,9 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
         <Link
           px={2}
           py={1}
+          as={NextLink}
           rounded={"md"}
-          href={"#"}
+          href={"/multisend/native"}
           _hover={{ textDecoration: "none", bg: "purple.500" }}
         >
           Payments
@@ -63,7 +65,8 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
           px={2}
           py={1}
           rounded={"md"}
-          href={"#"}
+          href={"/recent-transactions"}
+          as={NextLink}
           _hover={{ textDecoration: "none", bg: "purple.500" }}
         >
           Transaction History

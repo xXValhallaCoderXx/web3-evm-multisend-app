@@ -5,7 +5,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { wagmiConfig } from "@/shared/config/wagmi-config";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReduxProvider from "@/shared//providers/ReduxProviders";
-
+import theme from "@/shared/styles/chakra-ui-theme";
 interface IRootProviderProps {
   children: React.ReactNode;
 }
@@ -15,7 +15,7 @@ const RootProvider: FC<IRootProviderProps> = ({ children }) => {
     <ReduxProvider>
       <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClient}>
-          <ChakraProvider>{children}</ChakraProvider>
+          <ChakraProvider theme={theme}>{children}</ChakraProvider>
         </QueryClientProvider>
       </WagmiProvider>
     </ReduxProvider>

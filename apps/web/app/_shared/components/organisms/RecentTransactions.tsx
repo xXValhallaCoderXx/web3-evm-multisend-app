@@ -3,7 +3,7 @@ import { Card, CardHeader, CardBody, Flex, Box, Text } from "@chakra-ui/react";
 const RecentTransactionsCard = () => {
   const isUserSignedIn = false;
   return (
-    <Card w="full">
+    <Card bgColor="#201B43" w="full">
       <CardBody>
         <Text fontSize="xl" fontWeight={600}>
           Recent Transactions

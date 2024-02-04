@@ -132,7 +132,7 @@ const MultiSendEthForm = () => {
   };
   console.log("errors", errors);
   return (
-    <Card w="full">
+    <Card bgColor="#201B43" w="full">
       <CardBody>
         <LoadingOverlay isLoading={isPending} />
         <Text fontSize="2xl" fontWeight={600}>
@@ -156,8 +156,8 @@ const MultiSendEthForm = () => {
             </Flex>
 
             <Flex justifyContent="flex-end" mt={6}>
-              <Button type="submit" className="btn btn-primary">
-                Submit
+              <Button color="primary" type="submit">
+                Submits
               </Button>
             </Flex>
           </form>
