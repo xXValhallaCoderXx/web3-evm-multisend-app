@@ -71,8 +71,9 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
     switchChain({ chainId: parseInt(e.target.value) });
   };
   console.log("CHAIN ID: ", rest);
+  // bgGradient="linear-gradient(to bottom, #2d0c59, #5c4baf)"
   return (
-    <Box bgGradient="linear-gradient(to bottom, #2d0c59, #5c4baf)" h="100vh">
+    <Box bgColor="#140F34" h="100vh">
       <TopNavigationBar
         address={address}
         chainId={chainId}
