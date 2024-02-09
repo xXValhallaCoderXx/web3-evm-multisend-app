@@ -94,6 +94,8 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
             <Select
               onChange={handleOnChangeChain}
               defaultValue={chainId}
+              borderColor="primary.500"
+              focusBorderColor="secondary.500"
               w={140}
               size="xs"
               placeholder="Select Network"
