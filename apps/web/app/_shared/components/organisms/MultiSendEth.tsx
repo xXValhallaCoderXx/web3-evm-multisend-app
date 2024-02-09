@@ -69,6 +69,7 @@ const MultiSendEthForm = () => {
   });
   useEffect(() => {
     if (isWriteError) {
+      console.log("writeError", writeError);
       toast({
         title: "Error",
         description:
