@@ -65,6 +65,10 @@ const TransactionRow: FC<ITransactionRowProps> = ({
           <Input
             id={`${field.id}-address`}
             placeholder="Enter address..."
+            _placeholder={{ opacity: 1, color: "gray.300" }}
+            focusBorderColor="purple.400"
+            fontStyle={{ color: "white" }}
+            color="white"
             size="sm"
             {...register(
               `recipients[${index}].address`,
@@ -120,6 +124,9 @@ const TransactionRow: FC<ITransactionRowProps> = ({
             placeholder="0.00"
             size="sm"
             maxW={100}
+            color="white"
+            focusBorderColor="purple.400"
+            _placeholder={{ opacity: 1, color: "gray.300" }}
             {...register(`recipients[${index}].amount`, validationRules.amount)}
           />
 
