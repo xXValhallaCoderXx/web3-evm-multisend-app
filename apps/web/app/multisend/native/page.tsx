@@ -32,39 +32,14 @@ export default function NativeSendPage() {
   };
 
   return (
-    <MainLayout>
-      <Flex
-        alignItems="center"
-        height="calc(100vh - 65px)"
-        flexDirection="column"
-      >
-        <Flex gap={4} mt={8} flexDir="column" width={1000}>
-          <Flex justifyContent="flex-end">
-            <Flex gap={4}>
-              <CsvUpload />
-            </Flex>
-          </Flex>
-          <Flex justifyContent="center">
-            <Flex width={1000} minWidth={600} gap={4}>
-              <Flex flexDir="column" gap={4} flex={1}>
-                <PaymentTypeCard
-                  value={pathname}
-                  onChange={paymentTypeOnChange}
-                />
-                <PaymentBreakdownCard />
-              </Flex>
-              <Flex flex={2} minH={500}>
-                <MultiSendEthForm />
-              </Flex>
-            </Flex>
-          </Flex>
-          <Flex justifyContent="center">
-            <Box width={1000}>
-              <RecentTransactionsCard />
-            </Box>
-          </Flex>
-        </Flex>
+    <Flex width={1000} minWidth={600} gap={4}>
+      <Flex flexDir="column" gap={4} flex={1}>
+        <PaymentTypeCard value={pathname} onChange={paymentTypeOnChange} />
+        <PaymentBreakdownCard />
       </Flex>
-    </MainLayout>
+      <Flex flex={2} minH={500}>
+        <MultiSendEthForm />
+      </Flex>
+    </Flex>
   );
 }

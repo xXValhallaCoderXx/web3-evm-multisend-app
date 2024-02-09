@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { FC, ReactNode, useEffect } from "react";
 import { Box } from "@chakra-ui/react";
@@ -12,24 +13,22 @@ interface IMainLayoutProps {
 }
 
 const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
-  const { disconnect, error: disconnectError } = useDisconnect();
+  const toast = useToast();
+  const { disconnect } = useDisconnect();
   const {
     connect,
-    error: connectError,
     isError: isConnectError,
     failureReason: connectFailureReason,
   } = useConnect();
-  const toast = useToast();
+
   const {
     chains,
     switchChain,
     isError: isSwitchError,
-    isPending: isSwitchPaused,
     isSuccess: isSwitchSuccess,
     error,
-    ...rest
   } = useSwitchChain();
-  const { address, chainId } = useAccount();
+  const { isConnected } = useAccount();
 
   useEffect(() => {
     if (isConnectError) {
@@ -49,7 +48,6 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
     if (isSwitchSuccess) {
       toast({
         title: "Action Success",
-        // @ts-ignore
         description: "Switched network",
         status: "success",
         duration: 2500,
@@ -58,10 +56,11 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
     }
 
     if (isSwitchError) {
+      const errorMessage =
+        (error?.cause as Error)?.message ?? "An unknown error occurred";
       toast({
         title: "Wallet Action Rejected",
-        // @ts-ignore
-        description: error?.cause?.message,
+        description: errorMessage,
         status: "error",
         duration: 3500,
         isClosable: true,
@@ -70,7 +69,7 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
   }, [isSwitchSuccess, isSwitchError]);
 
   const handleWalletConnection = () => {
-    if (address) {
+    if (isConnected) {
       disconnect();
     } else {
       connect({ connector: injected() });
@@ -90,13 +89,10 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
   const handleOnChangeChain = (e: any) => {
     switchChain({ chainId: parseInt(e.target.value) });
   };
-  console.log("CHAIN ID: ", rest);
-  // bgGradient="linear-gradient(to bottom, #2d0c59, #5c4baf)"
+
   return (
     <Box bgColor="#140F34" h="100vh">
       <TopNavigationBar
-        address={address}
-        chainId={chainId}
         onClickConnectButton={handleWalletConnection}
         handleOnChangeChain={handleOnChangeChain}
         chainOptions={parseChainOptions()}

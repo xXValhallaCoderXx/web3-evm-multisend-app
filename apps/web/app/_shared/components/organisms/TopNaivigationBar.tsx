@@ -4,34 +4,36 @@ import React, { FC } from "react";
 import {
   Box,
   Flex,
-  Link,
   useColorModeValue,
   Select,
-  Text,
   Button,
+  Tooltip,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { useRouter } from "next/navigation";
+import { useAccount } from "wagmi";
 import SplitText from "../atoms/SplitText";
 interface ITopNavigationBarProps {
-  address?: string;
-  chainId?: number;
   handleOnChangeChain?: any;
   onClickConnectButton?: any;
   chainOptions?: any;
 }
 
 const TopNavigationBar: FC<ITopNavigationBarProps> = ({
-  address,
-  chainId,
   handleOnChangeChain,
   chainOptions,
   onClickConnectButton,
 }) => {
+  const router = useRouter();
+  const { isConnected, address, chainId } = useAccount();
   const bgGradient = useColorModeValue(
     "linear(to-r, #2d0c59, #5c4baf)",
     "linear(to-r, #2d0c59, #5c4baf)"
   );
 
+  const onClickRoute = (_url: string) => () => {
+    router.push(_url);
+  };
   return (
     <Flex
       as="nav"
@@ -48,33 +50,46 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
           MultiSendX
         </Box>
         <Flex align="center" gap={2}>
-          <Link
-            px={2}
-            py={1}
-            fontSize="small"
-            as={NextLink}
-            rounded={"md"}
-            href={"/multisend/native"}
-            _hover={{ textDecoration: "none", bg: "purple.500" }}
-          >
-            Payments
-          </Link>
-
-          <Link
-            px={2}
-            py={1}
-            fontSize="small"
-            rounded={"md"}
-            href={"/recent-transactions"}
-            as={NextLink}
-            _hover={{ textDecoration: "none", bg: "purple.500" }}
-          >
-            Transaction History
-          </Link>
+          <Tooltip hasArrow isDisabled={isConnected} label="Connect wallet">
+            <Button
+              onClick={onClickRoute("/multisend/native")}
+              isDisabled={!isConnected}
+              variant="ghost"
+              size="xs"
+              colorScheme="secondary"
+              _hover={{ textDecoration: "none", bg: "purple.500" }}
+            >
+              Payments
+            </Button>
+          </Tooltip>
+          <Tooltip hasArrow isDisabled={isConnected} label="Connect wallet">
+            <Button
+              isDisabled={!isConnected}
+              variant="ghost"
+              onClick={onClickRoute("/recent-transactions")}
+              size="xs"
+              colorScheme="secondary"
+              _hover={{ textDecoration: "none", bg: "purple.500" }}
+            >
+              Transaction History
+            </Button>
+          </Tooltip>
+          <Tooltip hasArrow isDisabled={isConnected} label="Connect wallet">
+            <Button
+              onClick={onClickRoute("/contacts")}
+              isDisabled={!isConnected}
+              variant="ghost"
+              size="xs"
+              colorScheme="secondary"
+              _hover={{ textDecoration: "none", bg: "purple.500" }}
+            >
+              Contacts
+            </Button>
+          </Tooltip>
         </Flex>
       </Flex>
       <Flex alignItems="center" justifyContent="space-between" gap={4}>
-        {address && (
+        {isConnected && (
           <Flex alignItems="center" gap={2}>
             <Select
               onChange={handleOnChangeChain}
@@ -90,12 +105,12 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
               ))}
             </Select>
             <SplitText split={5} fontSize="xs">
-              {address}
+              {address ?? ""}
             </SplitText>
           </Flex>
         )}
 
-        <Button size="xs" onClick={onClickConnectButton}>
+        <Button colorScheme="primary" size="xs" onClick={onClickConnectButton}>
           {address ? "Disconnect" : "Connect"}
         </Button>
       </Flex>
