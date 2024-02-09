@@ -9,7 +9,8 @@ import {
   Button,
   Tooltip,
 } from "@chakra-ui/react";
-import NextLink from "next/link";
+import { selectChains } from "@/shared/slice/chains/chains-selector";
+import { useAppSelector } from "@/shared/hooks/redux-hooks";
 import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
 import SplitText from "../atoms/SplitText";
@@ -25,12 +26,13 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
   onClickConnectButton,
 }) => {
   const router = useRouter();
+  const chains = useAppSelector(selectChains);
   const { isConnected, address, chainId } = useAccount();
   const bgGradient = useColorModeValue(
     "linear(to-r, #2d0c59, #5c4baf)",
     "linear(to-r, #2d0c59, #5c4baf)"
   );
-
+  console.log("chains", chains);
   const onClickRoute = (_url: string) => () => {
     router.push(_url);
   };

@@ -7,7 +7,7 @@ import {
   Text,
   Button,
   Flex,
-  Box,
+  Tooltip,
   useToast,
   Card,
   CardBody,
@@ -18,14 +18,15 @@ import {
   useWriteContract,
   useWaitForTransactionReceipt,
   useChainId,
+  useAccount,
 } from "wagmi";
 import MultiSendContract from "@/shared/abi/MultiSend.json";
 import LoadingOverlay from "@/components/molecules/LoadingOverlay";
-import { useCSVReader } from "react-papaparse";
+
 
 const MultiSendEthForm = () => {
+  const { isConnected } = useAccount();
   const dispatch = useAppDispatch();
-  const { CSVReader } = useCSVReader();
   const chainId = useChainId();
   const toast = useToast();
   const {
@@ -36,14 +37,12 @@ const MultiSendEthForm = () => {
     error: writeError,
     failureReason: writeErrorFailureReason,
     isError: isWriteError,
-    ...restWrite
   } = useWriteContract();
   const {
     isError,
     isLoading,
     isSuccess: isTxSuccess,
     isPending: isTxPending,
-    ...restTx
   } = useWaitForTransactionReceipt({
     hash: data,
   });
@@ -158,9 +157,16 @@ const MultiSendEthForm = () => {
           </Flex>
 
           <Flex justifyContent="flex-end" mt={6}>
-            <Button colorScheme="secondary" size="sm" type="submit">
-              Submit
-            </Button>
+            <Tooltip hasArrow isDisabled={isConnected} label="Connect wallet">
+              <Button
+                isDisabled={!isConnected}
+                colorScheme="secondary"
+                size="sm"
+                type="submit"
+              >
+                Submit
+              </Button>
+            </Tooltip>
           </Flex>
         </form>
       </CardBody>

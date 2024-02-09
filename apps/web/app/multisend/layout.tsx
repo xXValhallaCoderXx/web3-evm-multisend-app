@@ -1,6 +1,7 @@
 "use client";
 import { ReactNode, FC, useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { useAccount } from "wagmi";
 import { Flex, Box, Button, useDisclosure } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import LoadingOverlay from "@/components/molecules/LoadingOverlay";
@@ -16,6 +17,7 @@ interface IMultiSendLayout {
 const MultiSendLayout: FC<IMultiSendLayout> = ({ children }) => {
   const [isClient, setIsClient] = useState(false);
   const pathname = usePathname();
+  const { isConnected } = useAccount();
   const { isOpen, onOpen, onClose } = useDisclosure();
   useEffect(() => {
     setIsClient(true);
@@ -45,7 +47,7 @@ const MultiSendLayout: FC<IMultiSendLayout> = ({ children }) => {
                   Add Token
                 </Button>
               )}
-              <CsvUpload />
+              <CsvUpload isConnected={isConnected} />
             </Flex>
           </Flex>
           <Flex justifyContent="center">{children}</Flex>

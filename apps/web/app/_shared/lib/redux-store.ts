@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import transactionSlice from "@/shared/slice/transaction-slice";
+import chainsSlice from "@/shared/slice/chains/chains-slice";
 export const makeStore = () => {
   return configureStore({
     reducer: {
       transaction: transactionSlice,
+      chains: chainsSlice,
     },
   });
 };

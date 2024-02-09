@@ -1,7 +1,12 @@
+import { FC } from "react";
 import { useCSVReader } from "react-papaparse";
-import { Button, Input } from "@chakra-ui/react";
+import { Button, Input, Tooltip } from "@chakra-ui/react";
 
-const CsvUpload = () => {
+interface ICSVUploadProps {
+  isConnected: boolean;
+}
+
+const CsvUpload: FC<ICSVUploadProps> = ({ isConnected }) => {
   const { CSVReader } = useCSVReader();
 
   const handleOnDrop = (data: any) => {
@@ -19,6 +24,7 @@ const CsvUpload = () => {
     console.log(data);
     console.log("---------------------------");
   };
+
   return (
     <CSVReader
       onDrop={handleOnDrop}
@@ -29,15 +35,18 @@ const CsvUpload = () => {
     >
       {({ file }: any) => (
         <aside>
-          <Button
-            colorScheme="secondary"
-            size="sm"
-            onClick={() =>
-              document?.getElementById("react-papaparse-input")?.click()
-            }
-          >
-            Import CSV
-          </Button>
+          <Tooltip hasArrow isDisabled={isConnected} label="Connect wallet">
+            <Button
+              colorScheme="secondary"
+              size="sm"
+              isDisabled={!isConnected}
+              onClick={() =>
+                document?.getElementById("react-papaparse-input")?.click()
+              }
+            >
+              Import CSV
+            </Button>
+          </Tooltip>
           <Input id="react-papaparse-input" type="file" hidden />
           <div>{file && file.name}</div>
         </aside>
