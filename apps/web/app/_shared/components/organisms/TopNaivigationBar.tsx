@@ -11,7 +11,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-
+import SplitText from "../atoms/SplitText";
 interface ITopNavigationBarProps {
   address?: string;
   chainId?: number;
@@ -43,14 +43,15 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
       color="white"
       boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
     >
-      <Flex>
-        <Box w="200px" color="white" fontWeight="bold" fontSize="lg">
+      <Flex alignItems="center">
+        <Box w="140px" color="white" fontWeight="bold" fontSize="lg">
           MultiSendX
         </Box>
-        <Flex align="center" justify="center" gap={2}>
+        <Flex align="center" gap={2}>
           <Link
             px={2}
             py={1}
+            fontSize="small"
             as={NextLink}
             rounded={"md"}
             href={"/multisend/native"}
@@ -62,6 +63,7 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
           <Link
             px={2}
             py={1}
+            fontSize="small"
             rounded={"md"}
             href={"/recent-transactions"}
             as={NextLink}
@@ -72,22 +74,27 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
         </Flex>
       </Flex>
       <Flex alignItems="center" justifyContent="space-between" gap={4}>
-        <Text fontSize="xs">{address}</Text>
         {address && (
-          <Select
-            onChange={handleOnChangeChain}
-            defaultValue={chainId}
-            w={140}
-            size="xs"
-            placeholder="Select Network"
-          >
-            {chainOptions.map((chain: any) => (
-              <option key={chain?.value} value={chain?.value}>
-                {chain?.label}
-              </option>
-            ))}
-          </Select>
+          <Flex alignItems="center" gap={2}>
+            <Select
+              onChange={handleOnChangeChain}
+              defaultValue={chainId}
+              w={140}
+              size="xs"
+              placeholder="Select Network"
+            >
+              {chainOptions.map((chain: any) => (
+                <option key={chain?.value} value={chain?.value}>
+                  {chain?.label}
+                </option>
+              ))}
+            </Select>
+            <SplitText split={5} fontSize="xs">
+              {address}
+            </SplitText>
+          </Flex>
         )}
+
         <Button size="xs" onClick={onClickConnectButton}>
           {address ? "Disconnect" : "Connect"}
         </Button>

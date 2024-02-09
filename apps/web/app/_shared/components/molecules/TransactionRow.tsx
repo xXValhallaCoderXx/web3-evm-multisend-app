@@ -20,6 +20,7 @@ interface ITransactionRowProps {
   errors: any;
   onClickRemoveRow: (_index: number) => void;
   onClickCopyRow: (_index: number) => void;
+  totalItems?: number;
 }
 
 const validationRules = {
@@ -47,6 +48,7 @@ const TransactionRow: FC<ITransactionRowProps> = ({
   index,
   chainId,
   errors,
+  totalItems,
   onClickCopyRow,
   onClickRemoveRow,
 }) => {
@@ -138,6 +140,8 @@ const TransactionRow: FC<ITransactionRowProps> = ({
       <Flex mt={5} gap={2}>
         <IconButton
           size="sm"
+          isDisabled={index === 0 && (totalItems ?? 1) === 1}
+          _disabled={{ opacity: 0.5, cursor: "not-allowed" }}
           colorScheme="secondary"
           aria-label="delete-row"
           icon={<DeleteIcon />}

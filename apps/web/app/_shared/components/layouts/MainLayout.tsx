@@ -5,14 +5,20 @@ import { injected } from "wagmi/connectors";
 import { useToast } from "@chakra-ui/react";
 import TopNavigationBar from "@/components/organisms/TopNaivigationBar";
 import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
+import { walletError } from "@/shared/utils/wallet-error-mapping";
 
 interface IMainLayoutProps {
   children: ReactNode;
 }
 
 const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
-  const { disconnect } = useDisconnect();
-  const { connect } = useConnect();
+  const { disconnect, error: disconnectError } = useDisconnect();
+  const {
+    connect,
+    error: connectError,
+    isError: isConnectError,
+    failureReason: connectFailureReason,
+  } = useConnect();
   const toast = useToast();
   const {
     chains,
@@ -24,6 +30,20 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
     ...rest
   } = useSwitchChain();
   const { address, chainId } = useAccount();
+
+  useEffect(() => {
+    if (isConnectError) {
+      const result = walletError(connectFailureReason?.cause ?? null);
+
+      toast({
+        title: "Wallet Action Rejected",
+        description: result,
+        status: "error",
+        duration: 3500,
+        isClosable: true,
+      });
+    }
+  }, [isConnectError]);
 
   useEffect(() => {
     if (isSwitchSuccess) {

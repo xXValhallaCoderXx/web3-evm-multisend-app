@@ -151,6 +151,7 @@ const MultiSendEthForm = () => {
                 register={register}
                 onClickCopyRow={() => append({ address: "", amount: "" })}
                 onClickRemoveRow={handleOnClickDelete}
+                totalItems={fields.length}
               />
             ))}
           </Flex>
