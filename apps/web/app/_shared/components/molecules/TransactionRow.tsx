@@ -53,7 +53,7 @@ const TransactionRow: FC<ITransactionRowProps> = ({
   onClickRemoveRow,
 }) => {
   const defaultTokens = TOKEN_CONTRACTS[chainId ?? 1];
-  console.log("defaultTokens", defaultTokens);
+
 
   const onClickDelete = () => onClickRemoveRow(index);
   const onClickCopy = () => onClickCopyRow(index);

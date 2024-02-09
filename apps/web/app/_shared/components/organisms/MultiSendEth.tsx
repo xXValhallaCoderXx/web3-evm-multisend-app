@@ -91,7 +91,6 @@ const MultiSendEthForm = () => {
   }, [isWriteError, isWriteSuccess]);
 
   useEffect(() => {
-    console.log("watch", watch());
     const totalAmount = watch("recipients")?.reduce((accumulator, item) => {
       return accumulator + Number(item.amount) ?? 0;
     }, 0);
@@ -128,7 +127,6 @@ const MultiSendEthForm = () => {
       remove(_index);
     }
   };
-  console.log("errors", errors);
   return (
     <Card bgColor="#201B43" w="full">
       <CardBody>
