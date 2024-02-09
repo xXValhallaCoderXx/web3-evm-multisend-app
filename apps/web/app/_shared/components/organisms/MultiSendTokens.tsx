@@ -1,9 +1,10 @@
-import { Text, Button, Flex, Card, CardBody } from "@chakra-ui/react";
-import { useChainId } from "wagmi";
+import { Text, Button, Flex, Card, CardBody, Tooltip } from "@chakra-ui/react";
+import { useChainId, useAccount } from "wagmi";
 import { useForm, useFieldArray } from "react-hook-form";
 import TransactionRow from "@/components/molecules/TransactionRow";
 
 const MultiSendToken = () => {
+  const { isConnected } = useAccount();
   const chainId = useChainId();
   const {
     register,
@@ -59,9 +60,16 @@ const MultiSendToken = () => {
           </Flex>
 
           <Flex justifyContent="flex-end" mt={6}>
-            <Button colorScheme="secondary" size="sm" type="submit">
-              Submit
-            </Button>
+            <Tooltip hasArrow isDisabled={isConnected} label="Connect wallet">
+              <Button
+                isDisabled={!isConnected}
+                colorScheme="secondary"
+                size="sm"
+                type="submit"
+              >
+                Submit
+              </Button>
+            </Tooltip>
           </Flex>
         </form>
       </CardBody>

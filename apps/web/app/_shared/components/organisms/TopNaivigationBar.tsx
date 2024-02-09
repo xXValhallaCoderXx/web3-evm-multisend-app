@@ -52,18 +52,16 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
           MultiSendX
         </Box>
         <Flex align="center" gap={2}>
-          <Tooltip hasArrow isDisabled={isConnected} label="Connect wallet">
-            <Button
-              onClick={onClickRoute("/multisend/native")}
-              isDisabled={!isConnected}
-              variant="ghost"
-              size="xs"
-              colorScheme="secondary"
-              _hover={{ textDecoration: "none", bg: "purple.500" }}
-            >
-              Payments
-            </Button>
-          </Tooltip>
+          <Button
+            onClick={onClickRoute("/multisend/native")}
+            variant="ghost"
+            size="xs"
+            colorScheme="secondary"
+            _hover={{ textDecoration: "none", bg: "purple.500" }}
+          >
+            Payments
+          </Button>
+
           <Tooltip hasArrow isDisabled={isConnected} label="Connect wallet">
             <Button
               isDisabled={!isConnected}
