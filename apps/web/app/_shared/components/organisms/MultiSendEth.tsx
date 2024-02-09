@@ -23,7 +23,6 @@ import {
 import MultiSendContract from "@/shared/abi/MultiSend.json";
 import LoadingOverlay from "@/components/molecules/LoadingOverlay";
 
-
 const MultiSendEthForm = () => {
   const { isConnected } = useAccount();
   const dispatch = useAppDispatch();
@@ -46,7 +45,6 @@ const MultiSendEthForm = () => {
   } = useWaitForTransactionReceipt({
     hash: data,
   });
-
 
   const {
     register,

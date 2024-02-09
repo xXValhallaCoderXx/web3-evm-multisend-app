@@ -2,7 +2,7 @@
 import { ReactNode, FC, useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAccount } from "wagmi";
-import { Flex, Box, Button, useDisclosure } from "@chakra-ui/react";
+import { Flex, Box, Button, useDisclosure, Tooltip } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import LoadingOverlay from "@/components/molecules/LoadingOverlay";
 import MainLayout from "@/shared/components/layouts/MainLayout";
@@ -38,14 +38,21 @@ const MultiSendLayout: FC<IMultiSendLayout> = ({ children }) => {
           <Flex justifyContent="flex-end">
             <Flex gap={4}>
               {pathname.includes("token") && (
-                <Button
-                  onClick={onOpen}
-                  colorScheme="secondary"
-                  leftIcon={<AddIcon fontSize={12} />}
-                  size="sm"
+                <Tooltip
+                  hasArrow
+                  isDisabled={isConnected}
+                  label="Connect wallet"
                 >
-                  Add Token
-                </Button>
+                  <Button
+                    onClick={onOpen}
+                    isDisabled={!isConnected}
+                    colorScheme="secondary"
+                    leftIcon={<AddIcon fontSize={12} />}
+                    size="sm"
+                  >
+                    Add Token
+                  </Button>
+                </Tooltip>
               )}
               <CsvUpload isConnected={isConnected} />
             </Flex>
