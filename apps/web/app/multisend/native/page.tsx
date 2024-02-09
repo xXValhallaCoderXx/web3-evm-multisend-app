@@ -37,9 +37,8 @@ export default function NativeSendPage() {
         alignItems="center"
         height="calc(100vh - 65px)"
         flexDirection="column"
-        justifyContent="center"
       >
-        <Flex gap={4} flexDir="column" width={1000}>
+        <Flex gap={4} mt={8} flexDir="column" width={1000}>
           <Flex justifyContent="flex-end">
             <Flex gap={4}>
               <CsvUpload />
