@@ -1,8 +1,15 @@
+import { FC } from "react";
 import { Card, Flex, CardBody, Box, Text } from "@chakra-ui/react";
 import { useAppSelector } from "@/shared/hooks/redux-hooks";
 import { useBalance, useAccount } from "wagmi";
 
-const PaymentBreakdownCard = () => {
+interface IPaymentBreakdownCardProps {
+  nativeTokenPrice: string;
+}
+
+const PaymentBreakdownCard: FC<IPaymentBreakdownCardProps> = ({
+  nativeTokenPrice,
+}) => {
   const { isConnected, address } = useAccount();
   const totalAmount = useAppSelector((state) => state.transaction.total);
   const { data, isLoading } = useBalance({
@@ -11,6 +18,7 @@ const PaymentBreakdownCard = () => {
 
     query: { enabled: isConnected },
   });
+
   return (
     <Card bgColor="#201B43" height="100%" w="100%">
       <CardBody>
@@ -31,6 +39,16 @@ const PaymentBreakdownCard = () => {
             </Text>
             <Text color="white" fontSize="xs" pb={0.5}>
               ETH
+            </Text>
+          </Flex>
+          <Flex mt={-1} pl={4}>
+            <Text fontSize="xs" color="gray">
+              ${" "}
+              {(
+                parseFloat(data?.formatted ?? "0") *
+                parseFloat(nativeTokenPrice)
+              ).toLocaleString()}{" "}
+              USD
             </Text>
           </Flex>
         </Box>
@@ -56,9 +74,10 @@ const PaymentBreakdownCard = () => {
               ETH
             </Text>
           </Flex>
-          <Flex>
-            <Text fontSize="sm" color="gray">
-              $ 0.00 USD
+          <Flex mt={0.5}>
+            <Text fontSize="xs" color="gray">
+              $ {(totalAmount * parseFloat(nativeTokenPrice)).toLocaleString()}{" "}
+              USD
             </Text>
           </Flex>
         </Flex>
@@ -79,7 +98,13 @@ const PaymentBreakdownCard = () => {
           </Flex>
           <Flex>
             <Text fontSize="xs" color="gray">
-              $ 0.00 USD
+              ${" "}
+              {(
+                (parseFloat(data?.formatted ?? "0") -
+                  parseFloat(String(totalAmount))) *
+                parseFloat(nativeTokenPrice)
+              ).toLocaleString()}{" "}
+              USD
             </Text>
           </Flex>
         </Flex>
