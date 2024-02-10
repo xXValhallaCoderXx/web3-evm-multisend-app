@@ -12,22 +12,27 @@ export async function GET(request: NextRequest) {
   }
   let apiResponse = null;
   try {
-    const response = await fetch(
-      `https://api.coinbase.com/v2/prices/${tokenSymbol}-USD/spot`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
-    );
-    const parsedResponse = await response.json();
+    // const response = await fetch(
+    //   `https://api.coinbase.com/v2/prices/${tokenSymbol}-USD/spot`,
+    //   {
+    //     method: "GET",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Accept: "application/json",
+    //     },
+    //   }
+    // );
+    // const parsedResponse = await response.json();
 
+    // apiResponse = {
+    //   price: parsedResponse.data.amount,
+    //   currency: parsedResponse.data.currency,
+    //   token: parsedResponse.data.base,
+    // };
     apiResponse = {
-      price: parsedResponse.data.amount,
-      currency: parsedResponse.data.currency,
-      token: parsedResponse.data.base,
+      price: "2491.825",
+      currency: "USD",
+      token: tokenSymbol,
     };
   } catch (err) {
     console.log("ERROR");
