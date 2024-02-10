@@ -1,12 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 import transactionSlice from "@/shared/slice/transaction-slice";
 import chainsSlice from "@/shared/slice/chains/chains-slice";
+import { rootApi } from "./root-api";
+
 export const makeStore = () => {
   return configureStore({
     reducer: {
+      [rootApi.reducerPath]: rootApi.reducer,
       transaction: transactionSlice,
       chains: chainsSlice,
     },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(rootApi.middleware),
   });
 };
 

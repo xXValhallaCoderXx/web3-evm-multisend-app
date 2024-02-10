@@ -2,16 +2,12 @@
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
-import { Flex, Box, useDisclosure } from "@chakra-ui/react";
+import { Flex, useDisclosure } from "@chakra-ui/react";
 
-import MainLayout from "@/shared/components/layouts/MainLayout";
 import MultiSendEthForm from "@/shared/components/organisms/MultiSendEth";
 import PaymentBreakdownCard from "@/components/organisms/PaymentBreakdownCard";
 import PaymentTypeCard from "@/components/organisms/PaymentTypeCard";
-import RecentTransactionsCard from "@/components/organisms/RecentTransactions";
 import LoadingOverlay from "@/components/molecules/LoadingOverlay";
-import CsvUpload from "@/components/molecules/CsvUpload";
-import AddTokenModal from "@/components/molecules/AddTokenModal";
 
 export default function NativeSendPage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
