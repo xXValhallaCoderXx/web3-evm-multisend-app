@@ -9,7 +9,8 @@
     "test:token": "pnpm run --parallel test:token",
     "test:multisend": "pnpm run --parallel test:multisend",
     "deploy:local": "pnpm run --parallel deploy:local",
-    "blockchain:local": "pnpm run --parallel blockchain:local"
+    "blockchain:local": "pnpm run --parallel blockchain:local",
+    "accounts:local": "pnpm run --parallel accounts:local"
   },
   "keywords": [],
   "author": "",

@@ -7,9 +7,10 @@ const PaymentBreakdownCard = () => {
   const totalAmount = useAppSelector((state) => state.transaction.total);
   const { data, isLoading } = useBalance({
     address,
+    scopeKey: "wallet-balance",
+
     query: { enabled: isConnected },
   });
-  console.log("ETH Blanace", data);
   return (
     <Card bgColor="#201B43" height="100%" w="100%">
       <CardBody>
@@ -67,7 +68,10 @@ const PaymentBreakdownCard = () => {
           </Text>
           <Flex mt={-1} mb={-1} alignItems="flex-end" gap={2}>
             <Text color="white" fontWeight={600} fontSize="xl">
-              {totalAmount}
+              {(
+                parseFloat(data?.formatted ?? "0") -
+                parseFloat(String(totalAmount))
+              ).toFixed(4)}
             </Text>
             <Text pb={0.5} color="white" fontSize="sm">
               ETH

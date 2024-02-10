@@ -89,13 +89,13 @@ contract MultiSendX {
         uint256 total = 0;
         for (uint256 i = 0; i < recipients.length; i++) total += amounts[i];
         require(userBalance >= total, "Insufficient balance");
-        if(userAllowance < total) {
-            revert InsufficientAllowance({
-            requiredAllowance: total,
-            currentAllowance: userAllowance
-        });
-        }
-        // require(userAllowance >= total, string("Wallet has insufficient allowance: " , msg.sender));
+        // if(userAllowance < total) {
+        //     revert InsufficientAllowance({
+        //     requiredAllowance: total,
+        //     currentAllowance: userAllowance
+        // });
+        // }
+        require(userAllowance >= total, "Wallet has insufficient allowance" );
         require(token.transferFrom(msg.sender, address(this), total));
         for (uint i = 0; i < recipients.length; i++) {
             require(

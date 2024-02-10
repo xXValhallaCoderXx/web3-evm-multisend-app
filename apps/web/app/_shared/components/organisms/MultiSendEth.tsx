@@ -1,6 +1,7 @@
 "use client";
 import { parseEther } from "viem";
 import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useAppDispatch } from "@/shared/hooks/redux-hooks";
 import { setTotal } from "@/shared/slice/transaction-slice";
 import {
@@ -24,24 +25,24 @@ import MultiSendContract from "@/shared/abi/MultiSend.json";
 import LoadingOverlay from "@/components/molecules/LoadingOverlay";
 
 const MultiSendEthForm = () => {
+  const queryClient = useQueryClient();
   const { isConnected } = useAccount();
   const dispatch = useAppDispatch();
   const chainId = useChainId();
   const toast = useToast();
   const {
     writeContract,
-    isPending,
+    isPending, // Pending state while waiting for wallet to confirm / reject
     isSuccess: isWriteSuccess,
     data,
     error: writeError,
     failureReason: writeErrorFailureReason,
     isError: isWriteError,
   } = useWriteContract();
+
   const {
-    isError,
-    isLoading,
-    isSuccess: isTxSuccess,
-    isPending: isTxPending,
+    isLoading: isTxLoading, // Is confirming
+    isSuccess: isTxSuccess, // Is successful
   } = useWaitForTransactionReceipt({
     hash: data,
   });
@@ -77,18 +78,21 @@ const MultiSendEthForm = () => {
         duration: 5000,
         isClosable: true,
       });
-    } else if (isWriteSuccess) {
-      toast({
-        title: "Action Success",
-        // @ts-ignore
-        description: "Transaction sent",
-        status: "success",
-        duration: 2500,
-        isClosable: true,
-      });
-      reset();
     }
   }, [isWriteError, isWriteSuccess]);
+
+  useEffect(() => {
+    if (isTxSuccess) {
+      queryClient.invalidateQueries();
+      toast({
+        title: "Transaction executed",
+        description: "Transaction completed successfully",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  }, [isTxSuccess]);
 
   useEffect(() => {
     const totalAmount = watch("recipients")?.reduce((accumulator, item) => {
@@ -130,7 +134,7 @@ const MultiSendEthForm = () => {
   return (
     <Card bgColor="#201B43" w="full">
       <CardBody>
-        <LoadingOverlay isLoading={isPending} />
+        <LoadingOverlay isLoading={isPending || isTxLoading} />
         <Text mb={2} fontSize="2xl" color="white" fontWeight={600}>
           Batch Send ETH Payments
         </Text>
@@ -155,7 +159,8 @@ const MultiSendEthForm = () => {
           <Flex justifyContent="flex-end" mt={6}>
             <Tooltip hasArrow isDisabled={isConnected} label="Connect wallet">
               <Button
-                isDisabled={!isConnected}
+                isDisabled={!isConnected || isTxLoading}
+                isLoading={isTxLoading || isPending}
                 colorScheme="secondary"
                 size="sm"
                 type="submit"

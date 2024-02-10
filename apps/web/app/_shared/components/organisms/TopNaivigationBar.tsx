@@ -32,7 +32,7 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
     "linear(to-r, #2d0c59, #5c4baf)",
     "linear(to-r, #2d0c59, #5c4baf)"
   );
-  console.log("chains", chains);
+
   const onClickRoute = (_url: string) => () => {
     router.push(_url);
   };

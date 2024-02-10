@@ -286,4 +286,42 @@ describe("Multi Send ETH Testsuite", function () {
       expect(walletThreeJalanBalanceAfter).to.equal(parseEther("1010"));
     }
   });
+
+  // it("Should revert with the right error if not given allowance to contract", async function () {
+  //   const { contract } = await loadFixture(deployContract);
+  //   const { tokens } = await loadFixture(deployTokenContract);
+
+  //   if (tokens) {
+  //     tokens.forEach((token) => console.log("Token Address:", token.address));
+  //     const token = tokens[0];
+
+  //     const [walletOne, walletTwo, walletThree] =
+  //       await hre.viem.getWalletClients();
+  //     const publicClient = await hre.viem.getPublicClient();
+
+  //     const walletOneTokenBalance = await token.read.balanceOf([
+  //       walletOne.account.address,
+  //     ]);
+
+  //     const walletTwoTokenBalance = await token.read.balanceOf([
+  //       walletTwo.account.address,
+  //     ]);
+
+  //     expect(walletOneTokenBalance).to.equal(parseEther("1000"));
+  //     expect(walletTwoTokenBalance).to.equal(parseEther("1000"));
+
+  //     await expect(
+  //       publicClient.simulateContract({
+  //         address: contract.address,
+  //         abi: contract.abi,
+  //         functionName: "sendTokenToMultipleAddresses",
+  //         args: [
+  //           token.address,
+  //           [walletTwo.account.address, walletThree.account.address],
+  //           [1000000000000000000n, 2000000000000000000n],
+  //         ],
+  //       })
+  //     ).to.be.revertedWith("Wallet has insufficient allowance");
+  //   }
+  // });
 });
