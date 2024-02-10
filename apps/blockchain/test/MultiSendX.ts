@@ -2,7 +2,7 @@ import hre from "hardhat";
 // @ts-ignore
 import { expect } from "chai";
 // @ts-ignore
-import { getAddress, parseGwei, parseEther, formatEther } from "viem";
+import { parseEther } from "viem";
 import { loadFixture } from "@nomicfoundation/hardhat-toolbox-viem/network-helpers";
 
 const deployContract = async () => {
