@@ -13,6 +13,8 @@ struct MultiTokenTransferDetail {
 contract MultiSendX {
     IERC20 public token;
 
+    error InsufficientAllowance(uint256 requiredAllowance, uint256 currentAllowance);
+
     event NativeTransfer(
         address indexed from,
         address indexed to,
@@ -87,7 +89,13 @@ contract MultiSendX {
         uint256 total = 0;
         for (uint256 i = 0; i < recipients.length; i++) total += amounts[i];
         require(userBalance >= total, "Insufficient balance");
-        require(userAllowance >= total, "Insufficient allowance");
+        if(userAllowance < total) {
+            revert InsufficientAllowance({
+            requiredAllowance: total,
+            currentAllowance: userAllowance
+        });
+        }
+        // require(userAllowance >= total, string("Wallet has insufficient allowance: " , msg.sender));
         require(token.transferFrom(msg.sender, address(this), total));
         for (uint i = 0; i < recipients.length; i++) {
             require(

@@ -1,9 +1,9 @@
 {
   "name": "blockchain",
   "scripts": {
+    "node": "npx hardhat node",
     "compile": "npx hardhat compile",
     "accounts": "npx hardhat accounts",
-    "node": "npx hardhat node",
     "test:token": "npx hardhat test test/Token.ts",
     "test:multisend": "npx hardhat test test/MultiSendX.ts",
     "blockchain:local": "npx hardhat node",

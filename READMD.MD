@@ -18,6 +18,11 @@ pnpm i @chakra-ui/react @chakra-ui/next-js @emotion/react @emotion/styled framer
 - Run `pnpm i` to install all packages
 - Run `pnpm compile` to compile contracts
 
+
+## Testing
+
+
+
 - run local node `pnpm -F blockchain run node`
 
 ### Development options
