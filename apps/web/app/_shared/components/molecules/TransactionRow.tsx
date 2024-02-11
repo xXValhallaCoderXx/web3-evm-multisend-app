@@ -54,24 +54,25 @@ const TransactionRow: FC<ITransactionRowProps> = ({
 }) => {
   const defaultTokens = TOKEN_CONTRACTS[chainId ?? 1];
 
-
   const onClickDelete = () => onClickRemoveRow(index);
   const onClickCopy = () => onClickCopyRow(index);
+
+  // _placeholder={{ opacity: 1, color: "gray.300" }}
+  // focusBorderColor="purple.400"
+  // fontStyle={{ color: "white" }}
+  // variant="outline"
+  // color="white"
   return (
     <Flex gap={2}>
       <Flex flexGrow={1}>
         <FormControl ml={1} h={20} isInvalid={errors?.address?.message}>
           <FormLabel mb={0} color="white" fontSize="small" htmlFor="address">
-            Address
+            Addresss
           </FormLabel>
           <Input
             id={`${field.id}-address`}
             placeholder="Enter address..."
-            _placeholder={{ opacity: 1, color: "gray.300" }}
-            focusBorderColor="purple.400"
-            fontStyle={{ color: "white" }}
-            color="white"
-            size="sm"
+            colorScheme="primary"
             {...register(
               `recipients[${index}].address`,
               validationRules.address

@@ -2,15 +2,14 @@
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
-import { Flex, useDisclosure } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { useGetTokenPriceQuery } from "@/shared/slice/prices/price.api";
 import MultiSendEthForm from "@/shared/components/organisms/MultiSendEth";
-import PaymentBreakdownCard from "@/components/organisms/PaymentBreakdownCard";
-import PaymentTypeCard from "@/components/organisms/PaymentTypeCard";
+import NativeSendPaymentBreakdown from "@/components/organisms/NativeSendPaymentBreakdown";
+import PaymentTypeCard from "@/components/molecules/PaymentTypeCard";
 import LoadingOverlay from "@/components/molecules/LoadingOverlay";
 
 export default function NativeSendPage() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isClient, setIsClient] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -46,7 +45,10 @@ export default function NativeSendPage() {
     <Flex width={1000} minWidth={600} gap={4}>
       <Flex flexDir="column" gap={4} flex={1}>
         <PaymentTypeCard value={pathname} onChange={paymentTypeOnChange} />
-        <PaymentBreakdownCard nativeTokenPrice={tokenPrice?.price ?? ""} />
+        <NativeSendPaymentBreakdown
+          isLoading={isLoadingPrice}
+          nativeTokenPrice={tokenPrice?.price ?? ""}
+        />
       </Flex>
       <Flex flex={2} minH={500}>
         <MultiSendEthForm />

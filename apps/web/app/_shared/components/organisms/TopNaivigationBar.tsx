@@ -28,10 +28,7 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
   const router = useRouter();
   const chains = useAppSelector(selectChains);
   const { isConnected, address, chainId } = useAccount();
-  const bgGradient = useColorModeValue(
-    "linear(to-r, #2d0c59, #5c4baf)",
-    "linear(to-r, #2d0c59, #5c4baf)"
-  );
+
 
   const onClickRoute = (_url: string) => () => {
     router.push(_url);
@@ -43,7 +40,7 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
       justify="space-between"
       wrap="wrap"
       padding="1rem"
-      bgGradient={bgGradient}
+      bgColor="secondary.700"
       color="white"
       boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
     >

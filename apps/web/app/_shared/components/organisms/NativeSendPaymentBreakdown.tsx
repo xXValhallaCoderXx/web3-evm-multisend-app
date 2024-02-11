@@ -1,14 +1,16 @@
 import { FC } from "react";
-import { Card, Flex, CardBody, Box, Text } from "@chakra-ui/react";
+import { Card, Flex, CardBody, Box, Text, Skeleton } from "@chakra-ui/react";
 import { useAppSelector } from "@/shared/hooks/redux-hooks";
 import { useBalance, useAccount } from "wagmi";
 
-interface IPaymentBreakdownCardProps {
+interface INativeSendPaymentBreakdownProps {
   nativeTokenPrice: string;
+  isLoading?: boolean;
 }
 
-const PaymentBreakdownCard: FC<IPaymentBreakdownCardProps> = ({
+const NativeSendPaymentBreakdown: FC<INativeSendPaymentBreakdownProps> = ({
   nativeTokenPrice,
+  isLoading: isLoadingPrice,
 }) => {
   const { isConnected, address } = useAccount();
   const totalAmount = useAppSelector((state) => state.transaction.total);
@@ -41,15 +43,17 @@ const PaymentBreakdownCard: FC<IPaymentBreakdownCardProps> = ({
               ETH
             </Text>
           </Flex>
-          <Flex mt={-1} pl={4}>
-            <Text fontSize="xs" color="gray">
-              ${" "}
-              {(
-                parseFloat(data?.formatted ?? "0") *
-                parseFloat(nativeTokenPrice)
-              ).toLocaleString()}{" "}
-              USD
-            </Text>
+          <Flex pl={4}>
+            <Skeleton isLoaded={!isLoadingPrice} height={3}>
+              <Text fontSize="xs" mt={-1} color="gray">
+                ${" "}
+                {(
+                  parseFloat(data?.formatted ?? "0") *
+                  parseFloat(nativeTokenPrice)
+                ).toLocaleString()}{" "}
+                USD
+              </Text>
+            </Skeleton>
           </Flex>
         </Box>
         <Text
@@ -75,10 +79,13 @@ const PaymentBreakdownCard: FC<IPaymentBreakdownCardProps> = ({
             </Text>
           </Flex>
           <Flex mt={0.5}>
-            <Text fontSize="xs" color="gray">
-              $ {(totalAmount * parseFloat(nativeTokenPrice)).toLocaleString()}{" "}
-              USD
-            </Text>
+            <Skeleton isLoaded={!isLoadingPrice} height={3}>
+              <Text fontSize="xs" color="gray">
+                ${" "}
+                {(totalAmount * parseFloat(nativeTokenPrice)).toLocaleString()}{" "}
+                USD
+              </Text>
+            </Skeleton>
           </Flex>
         </Flex>
         <Flex flexDirection="column" mt={4} pl={4}>
@@ -97,19 +104,21 @@ const PaymentBreakdownCard: FC<IPaymentBreakdownCardProps> = ({
             </Text>
           </Flex>
           <Flex>
-            <Text fontSize="xs" color="gray">
-              ${" "}
-              {(
-                (parseFloat(data?.formatted ?? "0") -
-                  parseFloat(String(totalAmount))) *
-                parseFloat(nativeTokenPrice)
-              ).toLocaleString()}{" "}
-              USD
-            </Text>
+            <Skeleton isLoaded={!isLoadingPrice} height={3}>
+              <Text fontSize="xs" color="gray">
+                ${" "}
+                {(
+                  (parseFloat(data?.formatted ?? "0") -
+                    parseFloat(String(totalAmount))) *
+                  parseFloat(nativeTokenPrice)
+                ).toLocaleString()}{" "}
+                USD
+              </Text>
+            </Skeleton>
           </Flex>
         </Flex>
       </CardBody>
     </Card>
   );
 };
-export default PaymentBreakdownCard;
+export default NativeSendPaymentBreakdown;
