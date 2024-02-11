@@ -91,7 +91,7 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
   };
 
   return (
-    <Box bgColor="#140F34" h="100vh">
+    <Box>
       <TopNavigationBar
         onClickConnectButton={handleWalletConnection}
         handleOnChangeChain={handleOnChangeChain}

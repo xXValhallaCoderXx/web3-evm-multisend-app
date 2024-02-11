@@ -13,9 +13,19 @@ const PaymentTypeCard: FC<IPaymentTypeCard> = ({ value, onChange }) => {
     onChange && onChange(e.target.name);
   };
   return (
-    <Card bgColor="#201B43" borderColor="secondary" borderWidth={1} w="100%">
+    <Card
+      bgColor="secondary.700"
+      borderColor="secondary.500"
+      borderWidth={2}
+      w="100%"
+    >
       <CardBody>
-        <Text color="white" letterSpacing={0.9} fontSize="lg" fontWeight={600}>
+        <Text
+          color="secondary.200"
+          letterSpacing={0.9}
+          fontSize="lg"
+          fontWeight={600}
+        >
           Payment Type
         </Text>
         <Stack mt={2}>
@@ -26,7 +36,7 @@ const PaymentTypeCard: FC<IPaymentTypeCard> = ({ value, onChange }) => {
             name="native"
             colorScheme="secondary"
           >
-            <Text fontSize="sm" color="white">
+            <Text fontSize="xs" color="white">
               Batch Send Native Currency
             </Text>
           </Radio>
@@ -40,7 +50,7 @@ const PaymentTypeCard: FC<IPaymentTypeCard> = ({ value, onChange }) => {
             colorScheme="primary"
           >
             <Tooltip hasArrow label="Coming soon!">
-              <Text fontSize="sm" color="white">
+              <Text fontSize="xs" color="white">
                 Batch Multiple Token
               </Text>
             </Tooltip>

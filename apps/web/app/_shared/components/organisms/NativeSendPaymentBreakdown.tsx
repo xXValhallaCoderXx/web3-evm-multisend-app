@@ -22,18 +22,24 @@ const NativeSendPaymentBreakdown: FC<INativeSendPaymentBreakdownProps> = ({
   });
 
   return (
-    <Card bgColor="#201B43" height="100%" w="100%">
+    <Card
+      bgColor="secondary.700"
+      borderColor="secondary.500"
+      borderWidth={2}
+      height="100%"
+      w="100%"
+    >
       <CardBody>
         <Box>
           <Text
-            color="white"
+            color="secondary.200"
+            letterSpacing={0.9}
             fontSize="lg"
-            letterSpacing={0.8}
             fontWeight={600}
           >
             Wallet Balance
           </Text>
-          <Flex alignItems="flex-end" gap={2} pl={4}>
+          <Flex alignItems="flex-end" gap={2} pl={2}>
             <Text color="white" fontWeight={600} fontSize="md">
               {isLoading
                 ? "0.00"
@@ -43,9 +49,9 @@ const NativeSendPaymentBreakdown: FC<INativeSendPaymentBreakdownProps> = ({
               ETH
             </Text>
           </Flex>
-          <Flex pl={4}>
+          <Flex pl={2}>
             <Skeleton isLoaded={!isLoadingPrice} height={3}>
-              <Text fontSize="xs" mt={-1} color="gray">
+              <Text fontSize={10} mt={-1} color="timberwolf.300">
                 ${" "}
                 {(
                   parseFloat(data?.formatted ?? "0") *
@@ -57,11 +63,11 @@ const NativeSendPaymentBreakdown: FC<INativeSendPaymentBreakdownProps> = ({
           </Flex>
         </Box>
         <Text
-          color="white"
+          color="secondary.200"
+          letterSpacing={0.9}
           fontSize="lg"
-          letterSpacing={0.8}
-          mt={4}
           fontWeight={600}
+          mt={2}
         >
           Transaction Details
         </Text>

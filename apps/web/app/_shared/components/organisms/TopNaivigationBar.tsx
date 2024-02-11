@@ -1,14 +1,7 @@
 "use client";
 
 import React, { FC } from "react";
-import {
-  Box,
-  Flex,
-  useColorModeValue,
-  Select,
-  Button,
-  Tooltip,
-} from "@chakra-ui/react";
+import { Box, Flex, Text, Select, Button, Tooltip } from "@chakra-ui/react";
 import { selectChains } from "@/shared/slice/chains/chains-selector";
 import { useAppSelector } from "@/shared/hooks/redux-hooks";
 import { useRouter } from "next/navigation";
@@ -29,7 +22,6 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
   const chains = useAppSelector(selectChains);
   const { isConnected, address, chainId } = useAccount();
 
-
   const onClickRoute = (_url: string) => () => {
     router.push(_url);
   };
@@ -40,7 +32,7 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
       justify="space-between"
       wrap="wrap"
       padding="1rem"
-      bgColor="secondary.700"
+      bgColor="primary.700"
       color="white"
       boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
     >
@@ -48,40 +40,46 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
         <Box w="140px" color="white" fontWeight="bold" fontSize="lg">
           MultiSendX
         </Box>
-        <Flex align="center" gap={2}>
-          <Button
+        <Flex align="center" gap={6}>
+          <Text
             onClick={onClickRoute("/multisend/native")}
             variant="ghost"
-            size="xs"
-            colorScheme="secondary"
-            _hover={{ textDecoration: "none", bg: "purple.500" }}
+            fontSize={14}
+            color="timberwolf.300"
+            _hover={{
+              cursor: "pointer",
+              color: "timberwolf.100",
+            }}
           >
-            Payments
-          </Button>
+            Batch Transfers
+          </Text>
 
           <Tooltip hasArrow isDisabled={isConnected} label="Connect wallet">
-            <Button
-              isDisabled={!isConnected}
+            <Text
               variant="ghost"
-              onClick={onClickRoute("/recent-transactions")}
-              size="xs"
-              colorScheme="secondary"
-              _hover={{ textDecoration: "none", bg: "purple.500" }}
+              fontSize={14}
+              color={isConnected ? "timberwolf.300" : "timberwolf.700"}
+              _hover={{
+                cursor: "pointer",
+                color: isConnected ? "timberwolf.100" : "",
+              }}
             >
               Transaction History
-            </Button>
+            </Text>
           </Tooltip>
           <Tooltip hasArrow isDisabled={isConnected} label="Connect wallet">
-            <Button
+            <Text
               onClick={onClickRoute("/contacts")}
-              isDisabled={!isConnected}
               variant="ghost"
-              size="xs"
-              colorScheme="secondary"
-              _hover={{ textDecoration: "none", bg: "purple.500" }}
+              fontSize={14}
+              color={isConnected ? "timberwolf.300" : "timberwolf.700"}
+              _hover={{
+                cursor: "pointer",
+                color: isConnected ? "timberwolf.100" : "",
+              }}
             >
               Contacts
-            </Button>
+            </Text>
           </Tooltip>
         </Flex>
       </Flex>
@@ -109,7 +107,11 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
           </Flex>
         )}
 
-        <Button colorScheme="primary" size="xs" onClick={onClickConnectButton}>
+        <Button
+          colorScheme="secondary"
+          size="xs"
+          onClick={onClickConnectButton}
+        >
           {address ? "Disconnect" : "Connect"}
         </Button>
       </Flex>

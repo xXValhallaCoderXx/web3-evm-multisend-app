@@ -1,17 +1,17 @@
-import { extendTheme, theme } from "@chakra-ui/react";
+import { extendTheme, theme, StyleFunctionProps } from "@chakra-ui/react";
 
 const colors = {
   primary: {
-    50: "#ebe9fc",
-    100: "#c3bdf1",
-    200: "#9c90e8",
-    300: "#7663e1",
-    400: "#5038db",
-    500: "#3820c2",
-    600: "#2c1996",
-    700: "#1f126b",
-    800: "#130a40",
-    900: "#060316",
+    50: "#edeafe",
+    100: "#c9c4ee",
+    200: "#a69ce0",
+    300: "#8375d4",
+    400: "#5f4ec8",
+    500: "#4734ae",
+    600: "#362988",
+    700: "#271d61",
+    800: "#17113b",
+    900: "#080518",
   },
   secondary: {
     50: "#ededff",
@@ -45,6 +45,14 @@ const customTheme = extendTheme({
     colors: {
       "input-focus": { _light: "pink.500", _dark: "pink.300" },
     },
+  },
+  styles: {
+    global: (props: StyleFunctionProps) => ({
+      body: {
+        color: "default",
+        bg: "#17113b",
+      },
+    }),
   },
   components: {
     Input: {
