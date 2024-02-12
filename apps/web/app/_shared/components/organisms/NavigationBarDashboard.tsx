@@ -9,12 +9,14 @@ interface ITopNavigationBarProps {
   handleOnChangeChain?: any;
   onClickConnectButton?: any;
   chainOptions?: any;
+  isSideMenuOpen?: boolean;
 }
 
 const NavigationBarDashboard: FC<ITopNavigationBarProps> = ({
   handleOnChangeChain,
   chainOptions,
   onClickConnectButton,
+  isSideMenuOpen,
 }) => {
   const router = useRouter();
   const { isConnected, address, chainId } = useAccount();
@@ -34,58 +36,20 @@ const NavigationBarDashboard: FC<ITopNavigationBarProps> = ({
       boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
     >
       <Flex alignItems="center">
-        <Box
-          letterSpacing={0.7}
-          w="140px"
-          color="white"
-          fontWeight="bold"
-          fontSize="xl"
-        >
-          M<span style={{ fontSize: 14 }}>ulti</span>S
-          <span style={{ fontSize: 14 }}>end</span>X
-        </Box>
-        <Flex align="center" gap={6}>
+        {!isSideMenuOpen && (
           <Text
-            onClick={onClickRoute("/multisend/native")}
-            variant="ghost"
-            fontSize={14}
-            color="timberwolf.300"
-            _hover={{
-              cursor: "pointer",
-              color: "timberwolf.100",
-            }}
+            letterSpacing={0.7}
+            w="140px"
+            ml={-3.5}
+            mb={0.5}
+            color="white"
+            fontWeight="bold"
+            fontSize="xl"
           >
-            Batch Transfers
+            C<span style={{ fontSize: 14 }}>hain</span>B
+            <span style={{ fontSize: 14 }}>atch</span>X
           </Text>
-
-          <Tooltip hasArrow isDisabled={isConnected} label="Connect wallet">
-            <Text
-              variant="ghost"
-              fontSize={14}
-              color={isConnected ? "timberwolf.300" : "timberwolf.700"}
-              _hover={{
-                cursor: "pointer",
-                color: isConnected ? "timberwolf.100" : "",
-              }}
-            >
-              Transaction History
-            </Text>
-          </Tooltip>
-          <Tooltip hasArrow isDisabled={isConnected} label="Connect wallet">
-            <Text
-              onClick={onClickRoute("/contacts")}
-              variant="ghost"
-              fontSize={14}
-              color={isConnected ? "timberwolf.300" : "timberwolf.700"}
-              _hover={{
-                cursor: "pointer",
-                color: isConnected ? "timberwolf.100" : "",
-              }}
-            >
-              Contacts
-            </Text>
-          </Tooltip>
-        </Flex>
+        )}
       </Flex>
       <Flex alignItems="center" justifyContent="space-between" gap={4}>
         {isConnected && address && (

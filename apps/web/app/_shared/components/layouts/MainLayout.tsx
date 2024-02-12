@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { FC, ReactNode, useEffect } from "react";
-import { Box } from "@chakra-ui/react";
+import { FC, ReactNode, useEffect, useState } from "react";
+import { Flex } from "@chakra-ui/react";
 import { injected } from "wagmi/connectors";
 import { useToast } from "@chakra-ui/react";
 import TopNavigationBar from "@/components/organisms/NavigationBarDashboard";
 import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
 import { walletError } from "@/shared/utils/wallet-error-mapping";
+import SideNavigation from "../organisms/SideNavigation";
 
 interface IMainLayoutProps {
   children: ReactNode;
@@ -15,6 +16,7 @@ interface IMainLayoutProps {
 const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
   const toast = useToast();
   const { disconnect } = useDisconnect();
+  const [isSideMenuOpen, setIsSideMenuOpen] = useState(true);
   const {
     connect,
     isError: isConnectError,
@@ -90,16 +92,40 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
     switchChain({ chainId: parseInt(e.target.value) });
   };
 
-  return (
-    <Box>
-      <TopNavigationBar
-        onClickConnectButton={handleWalletConnection}
-        handleOnChangeChain={handleOnChangeChain}
-        chainOptions={parseChainOptions()}
-      />
+  const handleOnClickSideMenu = () => {
+    setIsSideMenuOpen(!isSideMenuOpen);
+  };
 
-      {children}
-    </Box>
+  // return (
+  //   <Box>
+  // <TopNavigationBar
+  //   onClickConnectButton={handleWalletConnection}
+  //   handleOnChangeChain={handleOnChangeChain}
+  //   chainOptions={parseChainOptions()}
+  // />
+  // <SideNavigation
+  //   onClickSideMenu={handleOnClickSideMenu}
+  //   isOpen={isSideMenuOpen}
+  // />
+  //     {children}
+  //   </Box>
+  // );
+  return (
+    <Flex height="100vh">
+      <SideNavigation
+        onClickSideMenu={handleOnClickSideMenu}
+        isOpen={isSideMenuOpen}
+      />
+      <Flex direction="column" flex="1" overflowY="auto">
+        <TopNavigationBar
+          onClickConnectButton={handleWalletConnection}
+          handleOnChangeChain={handleOnChangeChain}
+          chainOptions={parseChainOptions()}
+          isSideMenuOpen={isSideMenuOpen}
+        />
+        {children}
+      </Flex>
+    </Flex>
   );
 };
 
