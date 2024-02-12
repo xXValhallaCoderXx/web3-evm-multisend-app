@@ -31,7 +31,7 @@ const MultiSendLayout: FC<IMultiSendLayout> = ({ children }) => {
     <MainLayout>
       <Flex
         alignItems="center"
-        height="calc(100vh - 65px)"
+        height="calc(100vh - 76px)"
         flexDirection="column"
       >
         <Flex gap={4} mt={8} flexDir="column" width={1000}>

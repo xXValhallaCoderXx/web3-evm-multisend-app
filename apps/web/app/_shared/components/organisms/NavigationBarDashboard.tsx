@@ -90,7 +90,7 @@ const NavigationBarDashboard: FC<ITopNavigationBarProps> = ({
       <Flex alignItems="center" justifyContent="space-between" gap={4}>
         {isConnected && address && (
           <Flex alignItems="center" gap={2}>
-            <Select
+            {/* <Select
               onChange={handleOnChangeChain}
               defaultValue={chainId}
               borderColor="primary.500"
@@ -104,7 +104,7 @@ const NavigationBarDashboard: FC<ITopNavigationBarProps> = ({
                   {chain?.label}
                 </option>
               ))}
-            </Select>
+            </Select> */}
             <ConnectedAvatar address={address} />
           </Flex>
         )}
