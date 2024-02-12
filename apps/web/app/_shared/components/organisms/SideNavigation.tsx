@@ -124,14 +124,14 @@ const SideMenu: FC<ISideMenuProps> = ({ isOpen, onClickSideMenu }) => {
           </VStack>
           <Spacer />
           {isOpen && (
-            <Flex alignItems="center" gap={2}>
+            <Flex alignItems="center" gap={2} pl={0.5}>
               <Icon as={FiSettings} />
-              <Text>Settings</Text>
+              <MotionText variants={textVariants}>Settings</MotionText>
             </Flex>
           )}
         </VStack>
         {!isOpen && (
-          <Box position="absolute" bottom="4">
+          <Box pl={2} pb={1}>
             <Tooltip label="Settings">
               <Icon as={FiSettings} />
             </Tooltip>
