@@ -69,13 +69,10 @@ const NativeSendPaymentBreakdown: FC<INativeSendPaymentBreakdownProps> = ({
           fontWeight={600}
           mt={2}
         >
-          Transaction Details
+          Transaction Total
         </Text>
 
-        <Flex flexDirection="column" pl={4}>
-          <Text color="white" fontWeight={600}>
-            Total
-          </Text>
+        <Flex flexDirection="column" pl={2}>
           <Flex mt={-1} mb={-2} alignItems="flex-end" gap={2}>
             <Text color="white" fontWeight={600} fontSize="2xl">
               {totalAmount}
@@ -86,7 +83,7 @@ const NativeSendPaymentBreakdown: FC<INativeSendPaymentBreakdownProps> = ({
           </Flex>
           <Flex mt={0.5}>
             <Skeleton isLoaded={!isLoadingPrice} height={3}>
-              <Text fontSize="xs" color="gray">
+              <Text fontSize={10} color="timberwolf.300">
                 ${" "}
                 {(totalAmount * parseFloat(nativeTokenPrice)).toLocaleString()}{" "}
                 USD
@@ -94,24 +91,24 @@ const NativeSendPaymentBreakdown: FC<INativeSendPaymentBreakdownProps> = ({
             </Skeleton>
           </Flex>
         </Flex>
-        <Flex flexDirection="column" mt={4} pl={4}>
+        <Flex flexDirection="column" mt={4} pl={2}>
           <Text color="white" fontSize="small" fontWeight={600}>
             Remaining Balance
           </Text>
-          <Flex mt={-1} mb={-1} alignItems="flex-end" gap={2}>
-            <Text color="white" fontWeight={600} fontSize="xl">
+          <Flex mb={-1} alignItems="flex-end" gap={2}>
+            <Text color="white" fontWeight={600} fontSize="sm">
               {(
                 parseFloat(data?.formatted ?? "0") -
                 parseFloat(String(totalAmount))
               ).toFixed(4)}
             </Text>
-            <Text pb={0.5} color="white" fontSize="sm">
+            <Text pb={0.5} color="white" fontSize={10}>
               ETH
             </Text>
           </Flex>
           <Flex>
             <Skeleton isLoaded={!isLoadingPrice} height={3}>
-              <Text fontSize="xs" color="gray">
+              <Text fontSize={10} color="timberwolf.300">
                 ${" "}
                 {(
                   (parseFloat(data?.formatted ?? "0") -

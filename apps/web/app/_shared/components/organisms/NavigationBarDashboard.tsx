@@ -1,25 +1,22 @@
 "use client";
-
 import React, { FC } from "react";
 import { Box, Flex, Text, Select, Button, Tooltip } from "@chakra-ui/react";
-import { selectChains } from "@/shared/slice/chains/chains-selector";
-import { useAppSelector } from "@/shared/hooks/redux-hooks";
+import ConnectedAvatar from "@/components/molecules/ConnectedAvatar";
 import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
-import SplitText from "../atoms/SplitText";
+
 interface ITopNavigationBarProps {
   handleOnChangeChain?: any;
   onClickConnectButton?: any;
   chainOptions?: any;
 }
 
-const TopNavigationBar: FC<ITopNavigationBarProps> = ({
+const NavigationBarDashboard: FC<ITopNavigationBarProps> = ({
   handleOnChangeChain,
   chainOptions,
   onClickConnectButton,
 }) => {
   const router = useRouter();
-  const chains = useAppSelector(selectChains);
   const { isConnected, address, chainId } = useAccount();
 
   const onClickRoute = (_url: string) => () => {
@@ -37,8 +34,15 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
       boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
     >
       <Flex alignItems="center">
-        <Box w="140px" color="white" fontWeight="bold" fontSize="lg">
-          MultiSendX
+        <Box
+          letterSpacing={0.7}
+          w="140px"
+          color="white"
+          fontWeight="bold"
+          fontSize="xl"
+        >
+          M<span style={{ fontSize: 14 }}>ulti</span>S
+          <span style={{ fontSize: 14 }}>end</span>X
         </Box>
         <Flex align="center" gap={6}>
           <Text
@@ -84,7 +88,7 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
         </Flex>
       </Flex>
       <Flex alignItems="center" justifyContent="space-between" gap={4}>
-        {isConnected && (
+        {isConnected && address && (
           <Flex alignItems="center" gap={2}>
             <Select
               onChange={handleOnChangeChain}
@@ -101,22 +105,18 @@ const TopNavigationBar: FC<ITopNavigationBarProps> = ({
                 </option>
               ))}
             </Select>
-            <SplitText split={5} fontSize="xs">
-              {address ?? ""}
-            </SplitText>
+            <ConnectedAvatar address={address} />
           </Flex>
         )}
 
-        <Button
-          colorScheme="secondary"
-          size="xs"
-          onClick={onClickConnectButton}
-        >
-          {address ? "Disconnect" : "Connect"}
-        </Button>
+        {!isConnected && (
+          <Button colorScheme="accent" size="sm" onClick={onClickConnectButton}>
+            {address ? "Disconnect" : "Connect Wallet"}
+          </Button>
+        )}
       </Flex>
     </Flex>
   );
 };
 
-export default TopNavigationBar;
+export default NavigationBarDashboard;

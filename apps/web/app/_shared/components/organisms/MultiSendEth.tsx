@@ -11,6 +11,7 @@ import {
   Tooltip,
   useToast,
   Card,
+  Box,
   CardBody,
 } from "@chakra-ui/react";
 import TransactionRow from "@/components/molecules/TransactionRow";
@@ -132,12 +133,33 @@ const MultiSendEthForm = () => {
     }
   };
   return (
-    <Card bgColor="#201B43" w="full">
+    <Card
+      bgColor="secondary.700"
+      borderColor="secondary.500"
+      borderWidth={2}
+      w="full"
+    >
       <CardBody>
         <LoadingOverlay isLoading={isPending || isTxLoading} />
-        <Text mb={2} fontSize="2xl" color="white" fontWeight={600}>
-          Batch Send ETH Payments
-        </Text>
+
+        <Flex
+          alignItems="flex-end"
+          justifyContent="space-between"
+          gap={6}
+          mb={2}
+        >
+          <Text
+            fontSize="2xl"
+            color="secondary.200"
+            letterSpacing={0.8}
+            fontWeight={600}
+          >
+            Batch Send ETH Payments
+          </Text>
+          <Text fontSize="xs" color="secondary.200" mb={2}>
+            Recpients: {fields.length}
+          </Text>
+        </Flex>
 
         <form style={{ height: "100%" }} onSubmit={handleSubmit(onSubmit)}>
           <Flex flexDir="column" height="75%" maxHeight="75%" overflowY="auto">

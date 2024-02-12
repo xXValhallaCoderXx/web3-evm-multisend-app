@@ -4,7 +4,7 @@ import { FC, ReactNode, useEffect } from "react";
 import { Box } from "@chakra-ui/react";
 import { injected } from "wagmi/connectors";
 import { useToast } from "@chakra-ui/react";
-import TopNavigationBar from "@/components/organisms/TopNaivigationBar";
+import TopNavigationBar from "@/components/organisms/NavigationBarDashboard";
 import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
 import { walletError } from "@/shared/utils/wallet-error-mapping";
 
