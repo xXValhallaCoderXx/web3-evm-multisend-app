@@ -20,11 +20,22 @@ import { FiSettings } from "react-icons/fi";
 // Custom motion component
 const MotionBox = motion(Box);
 const MotionIcon = motion(ChevronLeftIcon);
+const MotionText = motion(Text);
 
 interface ISideMenuProps {
   isOpen: boolean;
   onClickSideMenu: () => void;
 }
+
+const textVariants = {
+  open: { opacity: 1, x: 0, transition: { delay: 0.2 } }, // Delayed appearance
+  closed: { opacity: 0, x: -20, transition: { duration: 0.2 } }, // Starts hidden and moves in
+};
+
+const menuVariants = {
+  open: { width: 170 },
+  closed: { width: 50 },
+};
 
 const SideMenu: FC<ISideMenuProps> = ({ isOpen, onClickSideMenu }) => {
   const menuItems = [
@@ -37,10 +48,9 @@ const SideMenu: FC<ISideMenuProps> = ({ isOpen, onClickSideMenu }) => {
 
   return (
     <MotionBox
-      initial={{ width: "50px" }}
-      animate={{
-        width: isOpen ? "170px" : "50px",
-      }}
+      initial="closed"
+      animate={isOpen ? "open" : "closed"}
+      variants={menuVariants}
       transition={{ duration: 0.3 }}
       bg="primary.700"
       color="white"
@@ -103,7 +113,7 @@ const SideMenu: FC<ISideMenuProps> = ({ isOpen, onClickSideMenu }) => {
               ? menuItems.map((item) => (
                   <Flex key={item.name} alignItems="center" gap={2}>
                     {item.icon}
-                    <Text>{item.name}</Text>
+                    <MotionText variants={textVariants}>{item.name}</MotionText>
                   </Flex>
                 ))
               : menuItems.map((item) => (
