@@ -31,37 +31,37 @@ const MultiSendLayout: FC<IMultiSendLayout> = ({ children }) => {
     <MainLayout>
       <Flex
         alignItems="center"
-        height="calc(100vh - 76px)"
+        height="calc(100vh - 64px)"
         flexDirection="column"
       >
-        <Flex gap={4} mt={8} flexDir="column" width={1000}>
-          <Flex justifyContent="flex-end">
-            <Flex gap={4}>
-              {pathname.includes("token") && (
-                <Tooltip
-                  hasArrow
-                  isDisabled={isConnected}
-                  label="Connect wallet"
+        <Flex
+          flexGrow={1}
+          id="main-content-wrapper"
+          gap={4}
+          flexDir="column"
+          width={1000}
+        >
+          <Flex id="cta-row" pt={8} justifyContent="flex-end">
+            {pathname.includes("token") && (
+              <Tooltip hasArrow isDisabled={isConnected} label="Connect wallet">
+                <Button
+                  onClick={onOpen}
+                  isDisabled={!isConnected}
+                  colorScheme="secondary"
+                  leftIcon={<AddIcon fontSize={12} />}
+                  size="sm"
                 >
-                  <Button
-                    onClick={onOpen}
-                    isDisabled={!isConnected}
-                    colorScheme="secondary"
-                    leftIcon={<AddIcon fontSize={12} />}
-                    size="sm"
-                  >
-                    Add Token
-                  </Button>
-                </Tooltip>
-              )}
-              <CsvUpload isConnected={isConnected} />
-            </Flex>
+                  Add Token
+                </Button>
+              </Tooltip>
+            )}
+            <CsvUpload isConnected={isConnected} />
           </Flex>
-          <Flex justifyContent="center">{children}</Flex>
-          <Flex justifyContent="center">
-            <Box width={1000}>
-              <RecentTransactionsCard />
-            </Box>
+          <Flex id="main-content" justifyContent="center">
+            {children}
+          </Flex>
+          <Flex id="recent-transactions" flexDir="column" flexGrow={1} pb={8}>
+            <RecentTransactionsCard />
           </Flex>
         </Flex>
       </Flex>
