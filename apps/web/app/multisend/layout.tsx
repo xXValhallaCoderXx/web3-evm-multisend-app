@@ -27,11 +27,15 @@ const MultiSendLayout: FC<IMultiSendLayout> = ({ children }) => {
     return <LoadingOverlay isLoading />;
   }
 
+  const handleOnCSVUpload = (data: any) => {
+    console.log(data);
+  };
+
   return (
     <MainLayout>
       <Flex
         alignItems="center"
-        height="calc(100vh - 64px)"
+        height="calc(100vh - 76px)"
         flexDirection="column"
       >
         <Flex
@@ -55,7 +59,10 @@ const MultiSendLayout: FC<IMultiSendLayout> = ({ children }) => {
                 </Button>
               </Tooltip>
             )}
-            <CsvUpload isConnected={isConnected} />
+            <CsvUpload
+              onCsvUpload={handleOnCSVUpload}
+              isConnected={isConnected}
+            />
           </Flex>
           <Flex id="main-content" justifyContent="center">
             {children}

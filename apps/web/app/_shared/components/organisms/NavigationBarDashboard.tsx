@@ -35,7 +35,7 @@ const NavigationBarDashboard: FC<ITopNavigationBarProps> = ({
       color="white"
       boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
     >
-      <Flex alignItems="center">
+      <Flex alignItems="center" sx={{ height: "44px" }}>
         {!isSideMenuOpen && (
           <Text
             letterSpacing={0.7}
@@ -44,7 +44,7 @@ const NavigationBarDashboard: FC<ITopNavigationBarProps> = ({
             mb={0.5}
             color="white"
             fontWeight="bold"
-            fontSize="xl"
+            fontSize="lg"
           >
             C<span style={{ fontSize: 14 }}>hain</span>B
             <span style={{ fontSize: 14 }}>atch</span>X

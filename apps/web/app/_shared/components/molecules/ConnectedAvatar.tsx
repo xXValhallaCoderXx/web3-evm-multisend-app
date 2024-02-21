@@ -45,14 +45,14 @@ const ConnectedAvatar: FC<IConnectAvatarProps> = ({ address }) => {
               <Avatar size="xs" />
             </Flex>
             <Flex flexDir="column">
-              <SplitText color="white" fontWeight={600} split={5} fontSize="sm">
+              <SplitText color="white" fontWeight={600} split={5} fontSize="xs">
                 {address}
               </SplitText>
               <Text
                 color="timberwolf.300"
                 mt={-1}
                 textAlign="right"
-                fontSize={10}
+                fontSize={9}
               >
                 999.999 ETH
               </Text>

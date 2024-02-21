@@ -1,55 +1,51 @@
 import { FC } from "react";
 import { useCSVReader } from "react-papaparse";
-import { Button, Input, Tooltip } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
+import { Button, Tooltip } from "@chakra-ui/react";
+import { parseCsvUpload } from "@/shared/utils/csv-upload";
 
 interface ICSVUploadProps {
   isConnected: boolean;
+  onCsvUpload: (data: any) => void;
 }
 
-const CsvUpload: FC<ICSVUploadProps> = ({ isConnected }) => {
+const CsvUpload: FC<ICSVUploadProps> = ({ isConnected, onCsvUpload }) => {
   const { CSVReader } = useCSVReader();
-
-  const handleOnDrop = (data: any) => {
-    console.log("---------------------------");
-    console.log(data);
-    console.log("---------------------------");
-  };
+  const toast = useToast();
 
   const handleOnError = (err: any, file: any, inputElem: any, reason: any) => {
     console.log(err);
   };
 
-  const handleOnRemoveFile = (data: any) => {
-    console.log("---------------------------");
-    console.log(data);
-    console.log("---------------------------");
+  const handleOnUploadAccepted = (results: any) => {
+    const parsedResults = parseCsvUpload(results);
+    onCsvUpload(parsedResults);
+    toast({
+      title: "CSV Uploaded",
+      description: "CSV file has been uploaded successfully",
+      status: "success",
+      duration: 2500,
+      isClosable: true,
+    });
   };
 
   return (
     <CSVReader
-      onDrop={handleOnDrop}
+      header
+      onUploadAccepted={handleOnUploadAccepted}
       onError={handleOnError}
-      noDrag
-      addRemoveButton
-      onRemoveFile={handleOnRemoveFile}
     >
-      {({ file }: any) => (
-        <aside>
-          <Tooltip hasArrow isDisabled={isConnected} label="Connect wallet">
-            <Button
-              colorScheme="secondary"
-              size="sm"
-              isDisabled={!isConnected}
-              onClick={() =>
-                document?.getElementById("react-papaparse-input")?.click()
-              }
-            >
-              Import CSV
-            </Button>
-          </Tooltip>
-          <Input id="react-papaparse-input" type="file" hidden />
-          <div>{file && file.name}</div>
-        </aside>
+      {({ getRootProps }: any) => (
+        <Tooltip hasArrow isDisabled={isConnected} label="Connect wallet">
+          <Button
+            colorScheme="secondary"
+            size="sm"
+            {...getRootProps()}
+            isDisabled={!isConnected}
+          >
+            Import CSV
+          </Button>
+        </Tooltip>
       )}
     </CSVReader>
   );
