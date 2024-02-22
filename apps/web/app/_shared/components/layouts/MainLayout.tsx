@@ -96,20 +96,7 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
     setIsSideMenuOpen(!isSideMenuOpen);
   };
 
-  // return (
-  //   <Box>
-  // <TopNavigationBar
-  //   onClickConnectButton={handleWalletConnection}
-  //   handleOnChangeChain={handleOnChangeChain}
-  //   chainOptions={parseChainOptions()}
-  // />
-  // <SideNavigation
-  //   onClickSideMenu={handleOnClickSideMenu}
-  //   isOpen={isSideMenuOpen}
-  // />
-  //     {children}
-  //   </Box>
-  // );
+
   return (
     <Flex height="100vh">
       <SideNavigation

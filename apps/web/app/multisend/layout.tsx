@@ -1,8 +1,8 @@
 "use client";
 import { ReactNode, FC, useState, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useAccount } from "wagmi";
-import { Flex, Box, Button, useDisclosure, Tooltip } from "@chakra-ui/react";
+import { Flex, Button, useDisclosure, Tooltip } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import LoadingOverlay from "@/components/molecules/LoadingOverlay";
 import MainLayout from "@/shared/components/layouts/MainLayout";
