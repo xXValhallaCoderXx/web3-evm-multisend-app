@@ -3,7 +3,7 @@ import { parseEther } from "viem";
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAppDispatch } from "@/shared/hooks/redux-hooks";
-import { setTotal } from "@/shared/slice/transaction-slice";
+import { setTotal } from "@/shared/slice/transaction/transaction-slice";
 import {
   Text,
   Button,
@@ -24,10 +24,13 @@ import {
 } from "wagmi";
 import MultiSendContract from "@/shared/abi/MultiSend.json";
 import LoadingOverlay from "@/components/molecules/LoadingOverlay";
+import { useAppSelector } from "@/shared/hooks/redux-hooks";
 
 const MultiSendEthForm = () => {
   const queryClient = useQueryClient();
   const { isConnected } = useAccount();
+  const recipients = useAppSelector((state) => state.transaction.recipients);
+
   const dispatch = useAppDispatch();
   const chainId = useChainId();
   const toast = useToast();
@@ -66,6 +69,13 @@ const MultiSendEthForm = () => {
     control,
     name: "recipients",
   });
+
+  useEffect(() => {
+    console.log("TRIGGERED");
+    if (recipients.length > 0) {
+      reset({ recipients });
+    }
+  }, [recipients]);
   useEffect(() => {
     if (isWriteError) {
       console.log("writeError", writeError);

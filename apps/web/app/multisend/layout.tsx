@@ -2,6 +2,7 @@
 import { ReactNode, FC, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useAccount } from "wagmi";
+import { useAppDispatch } from "@/shared/hooks/redux-hooks";
 import { Flex, Button, useDisclosure, Tooltip } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import LoadingOverlay from "@/components/molecules/LoadingOverlay";
@@ -9,6 +10,7 @@ import MainLayout from "@/shared/components/layouts/MainLayout";
 import RecentTransactionsCard from "@/components/organisms/RecentTransactions";
 import CsvUpload from "@/components/molecules/CsvUpload";
 import AddTokenModal from "@/components/molecules/AddTokenModal";
+import { setRecipients } from "@/shared/slice/transaction/transaction-slice";
 
 interface IMultiSendLayout {
   children: ReactNode;
@@ -16,6 +18,7 @@ interface IMultiSendLayout {
 
 const MultiSendLayout: FC<IMultiSendLayout> = ({ children }) => {
   const [isClient, setIsClient] = useState(false);
+  const dispatch = useAppDispatch();
   const pathname = usePathname();
   const { isConnected } = useAccount();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -28,7 +31,7 @@ const MultiSendLayout: FC<IMultiSendLayout> = ({ children }) => {
   }
 
   const handleOnCSVUpload = (data: any) => {
-    console.log(data);
+    dispatch(setRecipients(data));
   };
 
   return (

@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import transactionSlice from "@/shared/slice/transaction-slice";
+import transactionSlice from "@/shared/slice/transaction/transaction-slice";
 import chainsSlice from "@/shared/slice/chains/chains-slice";
 import { rootApi } from "./root-api";
 
