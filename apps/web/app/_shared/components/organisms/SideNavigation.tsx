@@ -9,6 +9,7 @@ import {
   Tooltip,
   Spacer,
 } from "@chakra-ui/react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
@@ -16,6 +17,7 @@ import { FaRegClock } from "react-icons/fa";
 import { IoMdContact } from "react-icons/io";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { FiSettings } from "react-icons/fi";
+import Link from "@/components/molecules/CustomLink";
 
 // Custom motion component
 const MotionBox = motion(Box);
@@ -38,14 +40,27 @@ const menuVariants = {
 };
 
 const SideMenu: FC<ISideMenuProps> = ({ isOpen, onClickSideMenu }) => {
+  const pathname = usePathname();
   const menuItems = [
-    { name: "Payments", icon: <Icon as={FaMoneyBillTransfer} /> },
-    { name: "History", icon: <Icon as={FaRegClock} /> },
-    { name: "Contacts", icon: <Icon as={IoMdContact} /> },
+    {
+      name: "Payments",
+      icon: FaMoneyBillTransfer,
+      href: "/app/multisend/native",
+    },
+    {
+      name: "History",
+      icon: FaRegClock,
+      href: "/app/transaction-history",
+    },
+    {
+      name: "Contacts",
+      icon: IoMdContact,
+      href: "/app/contacts",
+    },
   ];
 
   const rotateDegrees = isOpen ? 180 : 0;
-
+  console.log("PATH ANEM", pathname);
   return (
     <MotionBox
       initial="closed"
@@ -105,22 +120,26 @@ const SideMenu: FC<ISideMenuProps> = ({ isOpen, onClickSideMenu }) => {
 
           <VStack
             alignItems="flex-start"
-            mt={isOpen ? 5 : 6}
-            pl={isOpen ? 1 : 0}
-            spacing={isOpen ? 4 : 4}
+            mt={5}
+            bgColor="red"
+            // mt={isOpen ? 5 : 6}
+            // pl={isOpen ? 1 : 0}
+            // spacing={isOpen ? 4 : 4}
           >
-            {isOpen
-              ? menuItems.map((item) => (
-                  <Flex key={item.name} alignItems="center" gap={2}>
-                    {item.icon}
-                    <MotionText variants={textVariants}>{item.name}</MotionText>
-                  </Flex>
-                ))
-              : menuItems.map((item) => (
-                  <Tooltip label={item.name} key={item.name}>
-                    <div>{item.icon}</div>
-                  </Tooltip>
-                ))}
+            {menuItems.map((item, index) => (
+              <Link
+                showText={isOpen}
+                key={index}
+                href={item.href}
+                icon={item.icon}
+              >
+                {item.name}
+              </Link>
+              // <Flex key={item.name} alignItems="center" gap={2}>
+              //   {item.icon}
+              //   <MotionText variants={textVariants}>{item.name}</MotionText>
+              // </Flex>
+            ))}
           </VStack>
           <Spacer />
           {isOpen && (
@@ -143,3 +162,28 @@ const SideMenu: FC<ISideMenuProps> = ({ isOpen, onClickSideMenu }) => {
 };
 
 export default SideMenu;
+
+{
+  /* {isOpen
+              ? menuItems.map((item, index) => (
+                  <Link key={index} href={item.href} icon={item.icon}>
+                    {item.name}
+                  </Link>
+                  // <Flex key={item.name} alignItems="center" gap={2}>
+                  //   {item.icon}
+                  //   <MotionText variants={textVariants}>{item.name}</MotionText>
+                  // </Flex>
+                ))
+              : menuItems.map((item, index) => (
+                  <Tooltip  label={item.name} key={item.name}>
+                    <Link
+                      key={index}
+                      showText={false}
+                      href={item.href}
+                      icon={item.icon}
+                    >
+                      {item.name}
+                    </Link>
+                  </Tooltip>
+                ))} */
+}

@@ -1,15 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { fetchUsers } from "@/shared/db-queries/users";
+
 import { Flex } from "@chakra-ui/react";
 import { useGetTokenPriceQuery } from "@/shared/slice/prices/price.api";
 import MultiSendEthForm from "@/shared/components/organisms/MultiSendEth";
 import NativeSendPaymentBreakdown from "@/components/organisms/NativeSendPaymentBreakdown";
 import PaymentTypeCard from "@/components/molecules/PaymentTypeCard";
 import LoadingOverlay from "@/components/molecules/LoadingOverlay";
-
-
 
 export default function NativeSendPage() {
   const [isClient, setIsClient] = useState(false);
@@ -27,9 +25,6 @@ export default function NativeSendPage() {
 
   useEffect(() => {
     setIsClient(true);
-    fetchUsers().then((users) => {
-      console.log(users);
-    });
   }, []);
 
   useEffect(() => {

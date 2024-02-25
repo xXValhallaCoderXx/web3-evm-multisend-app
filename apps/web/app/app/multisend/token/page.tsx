@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Flex } from "@chakra-ui/react";
 import MultiSendToken from "@/components/organisms/MultiSendTokens";
-import PaymentBreakdownCard from "@/components/organisms/PaymentBreakdownCard";
-import PaymentTypeCard from "@/components/organisms/PaymentTypeCard";
+// import PaymentBreakdownCard from "@/components/organisms/PaymentBreakdownCard";
+// import PaymentTypeCard from "@/components/organisms/PaymentTypeCard";
 import LoadingOverlay from "@/components/molecules/LoadingOverlay";
 
 export default function TokenSendPage() {
@@ -27,8 +27,8 @@ export default function TokenSendPage() {
   return (
     <Flex width={1000} minWidth={600} gap={4}>
       <Flex flexDir="column" gap={4} flex={1}>
-        <PaymentTypeCard value={pathname} onChange={paymentTypeOnChange} />
-        <PaymentBreakdownCard />
+        {/* <PaymentTypeCard value={pathname} onChange={paymentTypeOnChange} />
+        <PaymentBreakdownCard /> */}
       </Flex>
       <Flex flex={2} minH={500}>
         <MultiSendToken />

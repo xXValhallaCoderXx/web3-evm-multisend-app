@@ -1,17 +1,12 @@
 "use client";
 import Link from "next/link";
 
-import { useRouter } from "next/navigation";
 const HomePage = () => {
   return (
     <div>
       <div>
         Go To Native Page
-        <Link href="/multisend/native">Native</Link>
-      </div>
-      <div>
-        Go To Token Page
-        <Link href="/multisend/token">Token</Link>
+        <Link href="/app/multisend/native">Native</Link>
       </div>
     </div>
   );
