@@ -20,10 +20,11 @@ const NavigationBarDashboard: FC<ITopNavigationBarProps> = ({
   return (
     <Flex
       as="nav"
-      align="center"
+      alignItems="center"
       justify="flex-end"
       wrap="wrap"
-      padding="1rem"
+      height={"50px"}
+      pr={4}
       bgColor="primary.700"
       color="white"
       boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"

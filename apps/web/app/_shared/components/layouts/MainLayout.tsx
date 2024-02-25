@@ -4,18 +4,31 @@ import { FC, ReactNode, useEffect, useState } from "react";
 import { Flex } from "@chakra-ui/react";
 import { injected } from "wagmi/connectors";
 import { useToast } from "@chakra-ui/react";
+
 import TopNavigationBar from "@/components/organisms/NavigationBarDashboard";
-import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
+import {
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useSwitchChain,
+  useSignMessage,
+} from "wagmi";
 import { walletError } from "@/shared/utils/wallet-error-mapping";
 import SideNavigation from "../organisms/SideNavigation";
+import { getCsrfToken, signIn, useSession } from "next-auth/react";
+import { SiweMessage } from "siwe";
 
 interface IMainLayoutProps {
   children: ReactNode;
 }
 
 const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
+  const { signMessageAsync } = useSignMessage();
   const toast = useToast();
+  const { data: session, status } = useSession();
   const { disconnect } = useDisconnect();
+  const { address } = useAccount();
+
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(true);
   const {
     connect,

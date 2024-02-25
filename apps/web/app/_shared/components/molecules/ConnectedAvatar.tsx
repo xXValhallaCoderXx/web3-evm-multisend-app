@@ -37,41 +37,34 @@ const CustomMenuButton = forwardRef((props, ref) => {
 
 const ConnectedAvatar: FC<IConnectAvatarProps> = ({ address }) => {
   return (
-    <div>
-      <Menu>
-        <MenuButton as={CustomMenuButton}>
-          <Flex gap={2}>
-            <Flex alignItems="center">
-              <Avatar size="xs" />
-            </Flex>
-            <Flex flexDir="column">
-              <SplitText color="white" fontWeight={600} split={5} fontSize="xs">
-                {address}
-              </SplitText>
-              <Text
-                color="timberwolf.300"
-                mt={-1}
-                textAlign="right"
-                fontSize={9}
-              >
-                999.999 ETH
-              </Text>
-            </Flex>
+    <Menu>
+      <MenuButton as={CustomMenuButton}>
+        <Flex gap={2}>
+          <Flex alignItems="center">
+            <Avatar size="xs" />
           </Flex>
-        </MenuButton>
-        <MenuList>
-          <MenuGroup title="Profile">
-            <MenuItem>My Account</MenuItem>
-            <MenuItem>Payments </MenuItem>
-          </MenuGroup>
-          <MenuDivider />
-          <MenuGroup title="Help">
-            <MenuItem>Docs</MenuItem>
-            <MenuItem>FAQ</MenuItem>
-          </MenuGroup>
-        </MenuList>
-      </Menu>
-    </div>
+          <Flex flexDir="column">
+            <SplitText color="white" fontWeight={600} split={5} fontSize="xs">
+              {address}
+            </SplitText>
+            <Text color="timberwolf.300" mt={-1} textAlign="right" fontSize={9}>
+              999.999 ETH
+            </Text>
+          </Flex>
+        </Flex>
+      </MenuButton>
+      <MenuList>
+        <MenuGroup title="Profile">
+          <MenuItem>My Account</MenuItem>
+          <MenuItem>Payments </MenuItem>
+        </MenuGroup>
+        <MenuDivider />
+        <MenuGroup title="Help">
+          <MenuItem>Docs</MenuItem>
+          <MenuItem>FAQ</MenuItem>
+        </MenuGroup>
+      </MenuList>
+    </Menu>
   );
 };
 
