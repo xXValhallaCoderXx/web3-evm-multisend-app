@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:postgres@localhost:5432/multisend-db-dev?schema=public"
+}
+
+
+// User model with wallet address as primary identifier
+model User {
+  walletAddress String       @id @unique
+  firstName     String?      // Optional first name
+  lastName      String?      // Optional last name
+  bulkTransfers BulkTransfer[]
+}
+
+// Model for bulk transfers made by a user
+model BulkTransfer {
+  id          Int           @id @default(autoincrement())
+  userId      String
+  user        User          @relation(fields: [userId], references: [walletAddress])
+  createdAt   DateTime      @default(now())
+  chain       String        // Chain identifier (Ethereum, Binance, Polygon, etc.)
+  currency    String        // Native coin or token identifier
+  totalAmount Decimal       // Total amount transferred
+  transferItems TransferItem[]
+}
+
+// Individual line items in a bulk transfer
+model TransferItem {
+  id            Int         @id @default(autoincrement())
+  bulkTransferId Int
+  bulkTransfer  BulkTransfer @relation(fields: [bulkTransferId], references: [id])
+  recipient     String      // Recipient wallet address
+  amount        Decimal     // Amount transferred to this recipient
+  currency      String      // Currency of this transfer
+}
