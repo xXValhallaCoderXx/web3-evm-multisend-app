@@ -36,7 +36,7 @@ const textVariants = {
 
 const menuVariants = {
   open: { width: 170 },
-  closed: { width: 50 },
+  closed: { width: 55 },
 };
 
 const SideMenu: FC<ISideMenuProps> = ({ isOpen, onClickSideMenu }) => {
@@ -70,15 +70,11 @@ const SideMenu: FC<ISideMenuProps> = ({ isOpen, onClickSideMenu }) => {
       bg="primary.700"
       color="white"
       position="relative"
+      bgColor="white"
     >
-      <Flex
-        direction="column"
-        justifyContent="space-between"
-        h="100%"
-        p={isOpen ? 4 : 2}
-      >
-        {/* Adjusted toggle button position */}
+      <Flex pt={4} bg="primary.700" pl={4} direction="column" h="100%">
         <Box
+          id="toggle-button"
           position="absolute"
           top="50%"
           right="-12px"
@@ -96,66 +92,53 @@ const SideMenu: FC<ISideMenuProps> = ({ isOpen, onClickSideMenu }) => {
           />
         </Box>
 
-        <VStack align={isOpen ? "flex-start" : "center"} flexGrow={1}>
-          <Flex pt={isOpen ? 0 : 2} gap={2}>
-            <Image
-              src="/images/icons/logo-main.png"
-              alt="logo"
-              height={20}
-              width={30}
-            />
-            {isOpen && (
-              <Text
-                letterSpacing={0.7}
-                w="140px"
-                color="white"
-                fontWeight="bold"
-                fontSize="xl"
-              >
-                C<span style={{ fontSize: 14 }}>hain</span>B
-                <span style={{ fontSize: 14 }}>atch</span>X
-              </Text>
-            )}
-          </Flex>
-
-          <VStack
-            alignItems="flex-start"
-            mt={5}
-            bgColor="red"
-            // mt={isOpen ? 5 : 6}
-            // pl={isOpen ? 1 : 0}
-            // spacing={isOpen ? 4 : 4}
-          >
+        <Flex height={26} gap={1}>
+          <Image
+            src="/images/icons/logo-main.png"
+            alt="logo"
+            height={22}
+            width={26}
+          />
+          {isOpen && (
+            <Text
+              letterSpacing={0.7}
+              w="140px"
+              color="white"
+              fontWeight="bold"
+              fontSize="lg"
+            >
+              C<span style={{ fontSize: 14 }}>hain</span>B
+              <span style={{ fontSize: 14 }}>atch</span>X
+            </Text>
+          )}
+        </Flex>
+        <Flex
+          ml={-1}
+          pt={2.5}
+          grow={1}
+          flexDir="column"
+          justifyContent="space-between"
+        >
+          <Flex flexDir="column" pl={2}>
             {menuItems.map((item, index) => (
               <Link
-                showText={isOpen}
                 key={index}
+                showText={isOpen}
                 href={item.href}
                 icon={item.icon}
               >
                 {item.name}
               </Link>
-              // <Flex key={item.name} alignItems="center" gap={2}>
-              //   {item.icon}
-              //   <MotionText variants={textVariants}>{item.name}</MotionText>
-              // </Flex>
             ))}
-          </VStack>
-          <Spacer />
-          {isOpen && (
-            <Flex alignItems="center" gap={2} pl={0.5}>
-              <Icon as={FiSettings} />
-              <MotionText variants={textVariants}>Settings</MotionText>
-            </Flex>
-          )}
-        </VStack>
-        {!isOpen && (
-          <Box pl={2} pb={1}>
-            <Tooltip label="Settings">
-              <Icon as={FiSettings} />
-            </Tooltip>
-          </Box>
-        )}
+          </Flex>
+
+          <Flex pl={2}>
+            {" "}
+            <Link showText={isOpen} href={"/app/settings"} icon={FiSettings}>
+              Settings
+            </Link>
+          </Flex>
+        </Flex>
       </Flex>
     </MotionBox>
   );
@@ -187,3 +170,60 @@ export default SideMenu;
                   </Tooltip>
                 ))} */
 }
+
+
+/*
+
+ <VStack
+          bgColor="red"
+          // align={isOpen ? "flex-start" : "center"}
+          flexGrow={1}
+        >
+          <Flex bgColor={"green"} gap={1}>
+            <Image
+              src="/images/icons/logo-main.png"
+              alt="logo"
+              height={22}
+              width={26}
+            />
+            {/* {isOpen && (
+              <Text
+                letterSpacing={0.7}
+                w="140px"
+                color="white"
+                fontWeight="bold"
+                fontSize="lg"
+              >
+                C<span style={{ fontSize: 14 }}>hain</span>B
+                <span style={{ fontSize: 14 }}>atch</span>X
+              </Text>
+            )} 
+            </Flex>
+
+            <VStack
+              mt={5}
+  
+              // mt={isOpen ? 5 : 6}
+              // pl={isOpen ? 1 : 0}
+              // spacing={isOpen ? 4 : 4}
+            >
+           
+            </VStack>
+            <Spacer />
+            {/* {isOpen && (
+              <Flex alignItems="center" gap={2} pl={0.5}>
+                <Icon as={FiSettings} />
+                <MotionText variants={textVariants}>Settings</MotionText>
+              </Flex>
+            )} 
+          </VStack>
+  
+          {!isOpen && (
+            <Box>
+              <Tooltip label="Settings">
+                <Icon as={FiSettings} />
+              </Tooltip>
+            </Box>
+          )}
+
+          */

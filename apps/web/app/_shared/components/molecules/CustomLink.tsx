@@ -3,7 +3,7 @@ import { FC } from "react";
 import { usePathname } from "next/navigation";
 import NextLink from "next/link";
 import { motion } from "framer-motion";
-import { Link, Box, Text } from "@chakra-ui/react";
+import { Link, Box, Text, Icon } from "@chakra-ui/react";
 
 interface ICustomLink {
   href: string;
@@ -20,7 +20,7 @@ const textVariants = {
 const CustomLink: FC<ICustomLink> = ({
   href,
   children,
-  icon: Icon,
+  icon,
   showText = true,
 }) => {
   const pathname = usePathname();
@@ -32,29 +32,17 @@ const CustomLink: FC<ICustomLink> = ({
   return (
     <NextLink href={href} passHref>
       <Link
-        display="flex" // Align icon and text horizontally
-        alignItems="center" // Center items vertically
-        justifyContent={showText ? "flex-start" : "center"} // Center icon if no text
-        px={2}
-        py={1}
         _hover={{
           textDecoration: "none",
-          color: "red.500", // Change text/icon color on hover
+          color: "primary.200", // Change text/icon color on hover
         }}
-        color={isActive ? "blue.100" : "gray.600"} // Active or default color
-        height="40px" // Example fixed height for consistency
+        display="flex"
+        alignItems="center"
+        height="40px"
+        color={isActive ? "secondary.600" : "secondary.300"} // Active or default color
       >
-        {Icon && (
-          <Box
-            as={Icon}
-            ml={showText ? -2 : 7}
-            _hover={{}}
-            mr={showText ? 2 : 0}
-          />
-        )}
-        <MotionText mb={showText ? 0 : 0} variants={textVariants}>
-          {children}
-        </MotionText>
+        <Icon as={icon} fontSize={18} mr={showText ? 1 : 0} />
+        <MotionText variants={textVariants}>{children}</MotionText>
       </Link>
     </NextLink>
   );
