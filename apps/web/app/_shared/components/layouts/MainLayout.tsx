@@ -96,6 +96,7 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
     setIsSideMenuOpen(!isSideMenuOpen);
   };
 
+  console.log("isConnected", isSideMenuOpen);
 
   return (
     <Flex height="100vh">
