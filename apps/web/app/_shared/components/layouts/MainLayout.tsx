@@ -28,7 +28,7 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
   const { data: session, status } = useSession();
   const { disconnect } = useDisconnect();
   const { address } = useAccount();
-
+  console.log("session", session);
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(true);
   const {
     connect,
@@ -44,6 +44,13 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
     error,
   } = useSwitchChain();
   const { isConnected } = useAccount();
+
+  useEffect(() => {
+    console.log(isConnected);
+    if (isConnected && !session) {
+      signWalletMessage();
+    }
+  }, [isConnected]);
 
   useEffect(() => {
     if (isConnectError) {
@@ -89,6 +96,31 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
     } else {
       connect({ connector: injected() });
     }
+  };
+
+  const signWalletMessage = async () => {
+    const callbackUrl = "/app/multisend/native";
+    const csrfToken = await getCsrfToken();
+    const message = new SiweMessage({
+      domain: window.location.host,
+      address: address,
+      statement: "Sign in with Ethereum to the app.",
+      uri: window.location.origin,
+      version: "1",
+      chainId: 1,
+      nonce: csrfToken,
+    });
+    console.log("MESSAGE", message);
+    const signature = await signMessageAsync({
+      message: message.prepareMessage(),
+    });
+    console.log("SIGNATURE", signature);
+    signIn("credentials", {
+      message: JSON.stringify(message),
+      redirect: false,
+      signature,
+      callbackUrl,
+    });
   };
 
   const parseChainOptions = () => {

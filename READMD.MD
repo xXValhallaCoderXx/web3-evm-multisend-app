@@ -32,3 +32,8 @@ pnpm i @chakra-ui/react @chakra-ui/next-js @emotion/react @emotion/styled framer
 
 #### Run frontend development only
 - Run `pnpm dev` to run the FE without a local chain
+
+
+### Tips
+
+- Generate seret key: openssl rand -base64 32

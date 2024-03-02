@@ -2,6 +2,7 @@ import "@/shared/styles/globals.css";
 import { FC } from "react";
 import { Inter } from "next/font/google";
 import RootProvider from "@/shared/Providers";
+import AuthProvider from "./_shared/providers/AuthProvider";
 
 import type { Metadata } from "next";
 
@@ -20,7 +21,9 @@ const RootLayout: FC<IProps> = ({ children }) => {
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
-        <RootProvider>{children}</RootProvider>
+        <AuthProvider>
+          <RootProvider>{children}</RootProvider>
+        </AuthProvider>
       </body>
     </html>
   );
